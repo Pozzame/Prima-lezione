@@ -1,4 +1,5 @@
-﻿Console.WriteLine("Scrivi qualcosa");
+﻿Console.Clear();
+Console.WriteLine("Scrivi qualcosa");
 string a = Console.ReadLine()!; //null-forgiving sopprime il warning
 Console.WriteLine("Come ti chiami di nome?");
 string? nome = Console.ReadLine(); //make nullable a non-nullable type
