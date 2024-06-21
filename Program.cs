@@ -9,7 +9,9 @@ Console.WriteLine("Soprannome?");
 string? soprannome = Console.ReadLine();
 Console.WriteLine($"{nome} {soprannome} {cognome} Hai scritto: " + a); //Interpolazione e concatenazione stringhe
 
-int num = 12;
+Console.WriteLine("Scrivi un numero.");
+int num = Convert.ToInt32(Console.ReadLine());
+
 int ver = 13;
 
 if (num == ver){
@@ -46,7 +48,6 @@ switch (num) {
         Console.WriteLine("Non è un giorno della settimana.");
         break;
 }
-
 
 Console.WriteLine("Con che tasto vuoi uscire?");
 ConsoleKeyInfo c = Console.ReadKey(true); //hide carattere premuto
