@@ -11,7 +11,7 @@ Console.WriteLine($"{nome} {soprannome} {cognome} Hai scritto: " + a); //Interpo
 */
 Console.WriteLine("Scrivi un numero.");
 int num = Convert.ToInt32(Console.ReadLine()); //Se stringa restituisce 0
-//int num = int.Parse(Console.ReadLine()); //Se stringa genera eccezzione
+//int num = int.Parse(Console.ReadLine()!); //Se stringa genera eccezione
 
 /*
 int ver = 13;
