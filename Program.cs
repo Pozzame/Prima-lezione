@@ -91,18 +91,16 @@ studenti.RemoveAt(eleList);
 foreach (string student in studenti) Console.WriteLine(student);
 */
 Console.Clear();
-List<string> partecipanti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"}; //Dichiarazione e poplamento lista con costruttore
-List<string> sorteggiati = new List<string>();
+List<string> partecipanti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"}; //Dichiarazione e popolamento lista con costruttore
+List<string> sorteggiati = new List<string>(); //Lista sorteggiati creata vuota
 Random rng = new Random();
-//Console.WriteLine("START!!!!!");
-//foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista iniziale
 
 while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 {
     Console.WriteLine("Studenti rimanenti:");
-    foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista rimanente
+    foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista partecipanti rimanenti
     Console.WriteLine("\nStudenti sorteggiati:");
-    foreach (string student in sorteggiati) Console.WriteLine(student); //Stampa lista sorteggiati
+    foreach (string student in sorteggiati) Console.WriteLine(student); //Stampa lista partecipanti sorteggiati
     int eleList = rng.Next(partecipanti.Count); //Genera un num casuale tra 0 e la dimensione della lista-1
     Console.WriteLine($"\nE' stato sorteggiato {partecipanti[eleList]} dalla List, e sarà spsotato nei sorteggiati");
     sorteggiati.Add(partecipanti[eleList]); //Aggiunge studente sorteggiato nella lista dei sorteggiati
