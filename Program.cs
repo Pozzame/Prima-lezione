@@ -99,14 +99,19 @@ Random rng = new Random();
 
 while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 {
-    int eleList = rng.Next(partecipanti.Count); //Genera un num casuale tra 0 e la dimensione della lista-1
-    Console.WriteLine($"E' stato sorteggiato {partecipanti[eleList]} dalla List, e sarà spsotato nei sorteggiati");
-    sorteggiati.Add(partecipanti[eleList]); //Aggiunge studente sorteggiato nella lista dei sorteggiati
-    partecipanti.RemoveAt(eleList); //Rimuove elemento dalla lista
     Console.WriteLine("Studenti rimanenti:");
     foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista rimanente
     Console.WriteLine("\nStudenti sorteggiati:");
     foreach (string student in sorteggiati) Console.WriteLine(student); //Stampa lista sorteggiati
-    Thread.Sleep(1000);
+    int eleList = rng.Next(partecipanti.Count); //Genera un num casuale tra 0 e la dimensione della lista-1
+    Console.WriteLine($"\nE' stato sorteggiato {partecipanti[eleList]} dalla List, e sarà spsotato nei sorteggiati");
+    sorteggiati.Add(partecipanti[eleList]); //Aggiunge studente sorteggiato nella lista dei sorteggiati
+    partecipanti.RemoveAt(eleList); //Rimuove elemento dalla lista
+    Console.ReadKey(true);
     Console.Clear();
 }
+    Console.WriteLine("Studenti rimanenti:");
+    foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista rimanente
+    Console.WriteLine("\nStudenti sorteggiati:");
+    foreach (string student in sorteggiati) Console.WriteLine(student); //Stampa lista sorteggiati
+    Console.WriteLine();
