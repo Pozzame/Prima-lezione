@@ -55,9 +55,21 @@ ConsoleKeyInfo c = Console.ReadKey(true); //hide carattere premuto
 Console.WriteLine("\nHai scelto: " + c.KeyChar + ". Provalo! :-D");
 
 while (Console.ReadKey() != c) { }*/
-
+/*
 string[] nomi = new string[3];
 //foreach (string nome in nomi) nome = Console.Read();
 for (int i = 0; i<nomi.Length;i++)
     nomi[i] = Console.ReadLine()!;
 foreach (string nome in nomi) Console.WriteLine(nome);
+*/
+List<string?> names = new List<string?>();
+string quit = "o";
+while (quit != "q")
+{
+    Console.WriteLine("Inserisci il nome. ('q' per uscire)");
+    string? ins = Console.ReadLine();
+    if (ins == "q")
+        quit = ins;
+    else names.Add(ins);
+}
+foreach (string? name in names) Console.WriteLine(name);
