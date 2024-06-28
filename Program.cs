@@ -61,7 +61,7 @@ string[] nomi = new string[3];
 for (int i = 0; i<nomi.Length;i++)
     nomi[i] = Console.ReadLine()!;
 foreach (string nome in nomi) Console.WriteLine(nome);
-*/
+
 List<string?> names = new List<string?>();
 string quit = "o";
 while (quit != "q")
@@ -74,3 +74,29 @@ while (quit != "q")
 }
 Console.WriteLine($"Hai inserito {names.Count} nomi.");
 foreach (string? name in names) Console.WriteLine(name);
+*/
+
+List<string> studenti = new List<string>();
+studenti.Add("Mattia");
+studenti.Add("Matteo");
+studenti.Add("Serghej");
+studenti.Add("Allison");
+studenti.Add("Ginevra");
+studenti.Add("Danilo");
+studenti.Add("Sharon");
+studenti.Add("Silvano");
+
+Random rng = new Random();
+Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.");
+
+string[] students = new string[8];
+studenti[0] = "Mattia";
+studenti[1] = "Matteo";
+studenti[2] = "Serghej";
+studenti[3] = "Allison";
+studenti[4] = "Ginevra";
+studenti[5] = "Danilo";
+studenti[6] = "Sharon";
+studenti[7] = "Silvano";
+
+Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array");
