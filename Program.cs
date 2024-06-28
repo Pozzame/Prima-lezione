@@ -8,12 +8,11 @@ string? cognome = Console.ReadLine();
 Console.WriteLine("Soprannome?");
 string? soprannome = Console.ReadLine();
 Console.WriteLine($"{nome} {soprannome} {cognome} Hai scritto: " + a); //Interpolazione e concatenazione stringhe
-*/
+
 Console.WriteLine("Scrivi un numero.");
 int num = Convert.ToInt32(Console.ReadLine()); //Se stringa restituisce 0
 //int num = int.Parse(Console.ReadLine()!); //Se stringa genera eccezione
 
-/*
 int ver = 13;
 
 if (num == ver){
@@ -23,7 +22,7 @@ else if (num < ver)
     Console.WriteLine($"{num} è minore di {ver}");
 else if (num > ver)
     Console.WriteLine($"{num} è maggiore di {ver}");
-*/
+
 switch (num) {
     case 1:
         Console.WriteLine("Lunedì");
@@ -50,9 +49,15 @@ switch (num) {
         Console.WriteLine($"{num} Non è un giorno della settimana.");
         break;
 }
-/*
+
 Console.WriteLine("Con che tasto vuoi uscire?");
 ConsoleKeyInfo c = Console.ReadKey(true); //hide carattere premuto
 Console.WriteLine("\nHai scelto: " + c.KeyChar + ". Provalo! :-D");
 
 while (Console.ReadKey() != c) { }*/
+
+string[] nomi = new string[3];
+//foreach (string nome in nomi) nome = Console.Read();
+for (int i = 0; i<nomi.Length;i++)
+    nomi[i] = Console.ReadLine()!;
+foreach (string nome in nomi) Console.WriteLine(nome);
