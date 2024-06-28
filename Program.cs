@@ -99,7 +99,7 @@ foreach (string student in partecipanti) Console.WriteLine(student); //Stampa li
 
 while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 {
-    int eleList = rng.Next(partecipanti.Count); //Genera un num casuale tra 0 e la dimensione della lista
+    int eleList = rng.Next(partecipanti.Count); //Genera un num casuale tra 0 e la dimensione della lista-1
     Console.WriteLine($"E' stato sorteggiato {partecipanti[eleList]} dalla List, e sarà spsotato nei sorteggiati");
     sorteggiati.Add(partecipanti[eleList]); //Aggiunge studente sorteggiato nella lista dei sorteggiati
     partecipanti.RemoveAt(eleList); //Rimuove elemento dalla lista
