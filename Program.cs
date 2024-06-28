@@ -72,4 +72,5 @@ while (quit != "q")
         quit = ins;
     else names.Add(ins);
 }
+Console.WriteLine($"Hai inserito {names.Count} nomi.");
 foreach (string? name in names) Console.WriteLine(name);
