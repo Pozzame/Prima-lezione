@@ -75,17 +75,32 @@ while (quit != "q")
 Console.WriteLine($"Hai inserito {names.Count} nomi.");
 foreach (string? name in names) Console.WriteLine(name);
 */
-
-string[] students = ["Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Danilo", "Sharon", "Silvano"];
-
+/*
+string[] students = ["Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"];
 List<string> studenti = new List<string>(students);
-//for (int i = 0; i < students.Length; i++) studenti.Add(studenti[i]);
-
 Random rng = new Random();
-Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array");
-
+Console.WriteLine(" - Lista:");
 foreach (string student in studenti) Console.WriteLine(student);
+Console.WriteLine(" - Array:");
+foreach (string student in students) Console.WriteLine(student);
+
+Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array.");
+
 int eleList = rng.Next(studenti.Count);
 Console.WriteLine($"E' stato sorteggiato {studenti[eleList]} dalla List, e sarà rimosso");
 studenti.RemoveAt(eleList);
 foreach (string student in studenti) Console.WriteLine(student);
+*/
+
+List<string> studenti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"};
+Random rng = new Random();
+foreach (string student in studenti) Console.WriteLine(student);
+
+while(studenti.Count > 0)
+{
+    int eleList = rng.Next(studenti.Count);
+    Console.WriteLine($"E' stato sorteggiato {studenti[eleList]} dalla List, e sarà rimosso");
+    studenti.RemoveAt(eleList);
+    Console.WriteLine("Studenti rimanenti:");
+    foreach (string student in studenti) Console.WriteLine(student);
+}
