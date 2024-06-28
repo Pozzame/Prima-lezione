@@ -90,7 +90,7 @@ Console.WriteLine($"E' stato sorteggiato {studenti[eleList]} dalla List, e sarà
 studenti.RemoveAt(eleList);
 foreach (string student in studenti) Console.WriteLine(student);
 */
-Console.Clear();
+/*Console.Clear();
 List<string> partecipanti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"}; //Dichiarazione e popolamento lista con costruttore
 List<string> sorteggiati = new List<string>(); //Lista sorteggiati creata vuota
 Random rng = new Random();
@@ -112,4 +112,35 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista rimanente
     Console.WriteLine("\nStudenti sorteggiati:");
     foreach (string student in sorteggiati) Console.WriteLine(student); //Stampa lista sorteggiati
-    Console.WriteLine();
+    Console.WriteLine();*/
+
+//Console.Clear();
+List<string> partecipanti = new List<string>();
+
+char quit = 'o';
+while (quit != 'q')
+{
+    Console.WriteLine("-----Gestionale classe-----");
+    Console.WriteLine("1 - Inserisci partecipante");
+    Console.WriteLine("2 - Visualiza partecipanti");
+    Console.WriteLine("'q' per uscire");
+    /*string? ins = Console.ReadLine(); */char ins = Console.ReadKey(true).KeyChar; //hide carattere premuto
+    switch (ins)
+    {
+        case 'q':
+            quit = ins;
+            Console.WriteLine();
+            break;
+        case '1':
+            Console.WriteLine("Inserire nome.");
+            partecipanti.Add(Console.ReadLine()!);
+            Console.Clear();
+            break;
+        case '2':
+            Console.Clear();
+            Console.WriteLine("Partecipanti:");
+            foreach (string studente in partecipanti) Console.WriteLine(studente);
+            Console.WriteLine();
+            break;
+    }
+}
