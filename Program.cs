@@ -76,27 +76,16 @@ Console.WriteLine($"Hai inserito {names.Count} nomi.");
 foreach (string? name in names) Console.WriteLine(name);
 */
 
-List<string> studenti = new List<string>();
-studenti.Add("Mattia");
-studenti.Add("Matteo");
-studenti.Add("Serghej");
-studenti.Add("Allison");
-studenti.Add("Ginevra");
-studenti.Add("Danilo");
-studenti.Add("Sharon");
-studenti.Add("Silvano");
+string[] students = ["Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Danilo", "Sharon", "Silvano"];
+
+List<string> studenti = new List<string>(students);
+//for (int i = 0; i < students.Length; i++) studenti.Add(studenti[i]);
 
 Random rng = new Random();
-Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.");
+Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array");
 
-string[] students = new string[8];
-studenti[0] = "Mattia";
-studenti[1] = "Matteo";
-studenti[2] = "Serghej";
-studenti[3] = "Allison";
-studenti[4] = "Ginevra";
-studenti[5] = "Danilo";
-studenti[6] = "Sharon";
-studenti[7] = "Silvano";
-
-Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array");
+foreach (string student in studenti) Console.WriteLine(student);
+int eleList = rng.Next(studenti.Count);
+Console.WriteLine($"E' stato sorteggiato {studenti[eleList]} dalla List, e sarà rimosso");
+studenti.RemoveAt(eleList);
+foreach (string student in studenti) Console.WriteLine(student);
