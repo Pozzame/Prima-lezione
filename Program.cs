@@ -1,5 +1,4 @@
-﻿Console.Clear();
-/*Console.WriteLine("Scrivi qualcosa");
+﻿/*Console.WriteLine("Scrivi qualcosa");
 string a = Console.ReadLine()!; //null-forgiving sopprime il warning
 Console.WriteLine("Come ti chiami di nome?");
 string? nome = Console.ReadLine(); //make nullable a non-nullable type
@@ -91,9 +90,10 @@ Console.WriteLine($"E' stato sorteggiato {studenti[eleList]} dalla List, e sarà
 studenti.RemoveAt(eleList);
 foreach (string student in studenti) Console.WriteLine(student);
 */
-
+Console.Clear();
 List<string> studenti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"};
 Random rng = new Random();
+Console.WriteLine("START!!!!!");
 foreach (string student in studenti) Console.WriteLine(student);
 
 while(studenti.Count > 0)
