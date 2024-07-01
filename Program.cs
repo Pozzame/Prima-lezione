@@ -124,7 +124,7 @@ while (inserimento != 'q')
     switch (inserimento)
     {
         case '1':
-            Console.WriteLine("inserire nome");
+            Console.WriteLine("Inserire nome");
             partecipanti.Add(Console.ReadLine()!);
             Console.Clear();
             break;
