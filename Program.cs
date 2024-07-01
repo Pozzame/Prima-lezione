@@ -115,32 +115,59 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     Console.WriteLine();*/
 
 //Console.Clear();
-List<string> partecipanti = new List<string>();
+List<string> partecipanti = new List<string>() {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"};
 char inserimento = 'o';
-while (inserimento != 'q')
+while (inserimento != 'q') //Esce con 'q'
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - Inserimento partecipante\n2 - Visualiza partecipanti\n3 - Ordina\nq per uscire");
+    Console.WriteLine("-----Gestionale classe-----\n1 - Inserimento partecipante\n2 - Visualiza partecipanti\n3 - Ordina\n4 - Ricerca\n5 - Rimuovi\n6 - Modifica\nq per uscire"); //Menù
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
-        case '1':
+        case '1': //Aggiunge nome
             Console.WriteLine("Inserire nome");
-            partecipanti.Add(Console.ReadLine()!);
-            Console.Clear();
+            string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
+            string nom = nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
+            if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlal che il nome non sia già presente
             break;
-        case '2':
+        case '2': // Lista partecipanti
             Console.Clear();
-            Console.WriteLine("Partecipanti:");
+            Console.WriteLine($"Partecipanti: ({partecipanti.Count})");
             foreach (string studente in partecipanti) Console.WriteLine(studente);
             Console.WriteLine();
             break;
-        case '3':
+        case '3': //Ordinamento
             partecipanti.Sort();
             Console.WriteLine("d - Discendente?");
             if (Console.ReadKey(true).KeyChar == 'd') partecipanti.Reverse();
             Console.Clear();
             break;
-        default:
+        case '4': //Controlla se già presente
+            Console.WriteLine("Nome?");
+            nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
+            nom = nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
+            if (partecipanti.Contains(nom)) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
+            break;
+        case '5': //Elimina partecipante
+            Console.WriteLine("Nome?");
+            nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
+            nom = nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
+            if (partecipanti.Contains(nom)) partecipanti.Remove(nom); else Console.WriteLine($"{nom} non è presente");
+            break;
+        case '6': //Modifica partecipante
+            Console.WriteLine("Nome partecipante");
+            nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
+            nom = nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
+            if (partecipanti.Contains(nom)) //Verifica che sia presente
+            {
+                Console.WriteLine("Nuovo nome?");
+                string nuovoNome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
+                string nuovoNom = nuovoNome[0].ToString().ToUpper() + nuovoNome.Substring(1); //Mette maiuscola solo la prima lettera;
+                partecipanti[partecipanti.IndexOf(nom)] = nuovoNom; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
+                Console.WriteLine($"{nom} è stato modificato in {nuovoNom}");
+            }
+            else Console.WriteLine($"{nom} non è nella lista.");
+            break;
+        default: //Non valido
             Console.Clear();
             Console.WriteLine("Scelta non valida.\n");
             break;
