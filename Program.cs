@@ -115,46 +115,64 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     Console.WriteLine();*/
 
 //Console.Clear();
-List<string> partecipanti = new List<string>() {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"};
+List<string> partecipanti = new List<string>() { "Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano" };
 char inserimento = 'o';
 while (inserimento != 'q') //Esce con 'q'
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - Inserimento partecipante\n2 - Visualiza partecipanti\n3 - Ordina\n4 - Ricerca\n5 - Rimuovi\n6 - Modifica\nq per uscire"); //Menù
+    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\nq per uscire"); //Menù principale
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
-        case '1': //Aggiunge nome
-            string nom = ReadNome();
-            if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlal che il nome non sia già presente
-            break;
-        case '2': // Lista partecipanti
+        case '1': // Lista partecipanti
             Console.Clear();
             Console.WriteLine($"Partecipanti: ({partecipanti.Count})");
             foreach (string studente in partecipanti) Console.WriteLine(studente);
             Console.WriteLine();
             break;
-        case '3': //Ordinamento
+        case '2': //Ordinamento
             partecipanti.Sort();
             Console.WriteLine("d - Discendente?");
             if (Console.ReadKey(true).KeyChar == 'd') partecipanti.Reverse();
             Console.Clear();
             break;
-        case '4': //Controlla se già presente
+        case '3': //Controlla se già presente
             if (partecipanti.Contains(ReadNome())) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
             break;
-        case '5': //Elimina partecipante
-            nom = ReadNome();
-            if (partecipanti.Contains(nom)) partecipanti.Remove(nom); else Console.WriteLine($"{nom} non è presente");
-            break;
-        case '6': //Modifica partecipante
-            nom = ReadNome();
-            if (partecipanti.Contains(nom)) //Verifica che sia presente
+        case '4': //Edita
+            do
             {
-                string nuovoNome = ReadNome();
-                partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
-                Console.WriteLine($"{nom} è stato modificato in {nuovoNome}");
-            }
-            else Console.WriteLine($"{nom} non è nella lista.");
+                Console.WriteLine("-----Menù edit-----\n1 - Aggiunta nome\n2 - Elimina partecipante\n3 - Modifica\nb - Back"); //Menù
+                inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
+                switch (inserimento)
+                {
+                    case '1': //Aggiunge nome
+                        string nom = ReadNome();
+                        if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlal che il nome non sia già presente
+                        break;
+                    case '2': //Elimina partecipante
+                        nom = ReadNome();
+                        if (partecipanti.Contains(nom))
+                        {
+                            partecipanti.Remove(nom); 
+                            Console.WriteLine($"{nom} è stato rimosso.");
+                        } else Console.WriteLine($"{nom} non è presente");
+                        break;
+                    case '3': //Modifica partecipante
+                        nom = ReadNome();
+                        if (partecipanti.Contains(nom)) //Verifica che sia presente
+                        {
+                            string nuovoNome = ReadNome();
+                            partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
+                            Console.WriteLine($"{nom} è stato modificato in {nuovoNome}");
+                        }
+                        else Console.WriteLine($"{nom} non è nella lista.");
+                        break;
+                    default: //Non valido
+                        Console.Clear();
+                        Console.WriteLine("Scelta non valida.\n");
+                        break;
+                }
+            } while (inserimento != 'b'); //Esce con 'b'
             break;
         default: //Non valido
             Console.Clear();
