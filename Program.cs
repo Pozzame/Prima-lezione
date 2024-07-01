@@ -119,12 +119,12 @@ List<string> partecipanti = new List<string>();
 char inserimento = 'o';
 while (inserimento != 'q')
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - inserimentoerisci partecipante\n2 - Visualiza partecipanti\n3 - Ordina\nq per uscire");
+    Console.WriteLine("-----Gestionale classe-----\n1 - Inserimento partecipante\n2 - Visualiza partecipanti\n3 - Ordina\nq per uscire");
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
         case '1':
-            Console.WriteLine("inserimentoerire nome");
+            Console.WriteLine("inserire nome");
             partecipanti.Add(Console.ReadLine()!);
             Console.Clear();
             break;
