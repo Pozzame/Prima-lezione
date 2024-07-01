@@ -116,21 +116,13 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 
 //Console.Clear();
 List<string> partecipanti = new List<string>();
-
-char quit = 'o';
-while (quit != 'q')
+char ins = 'o';
+while (ins != 'q')
 {
-    Console.WriteLine("-----Gestionale classe-----");
-    Console.WriteLine("1 - Inserisci partecipante");
-    Console.WriteLine("2 - Visualiza partecipanti");
-    Console.WriteLine("'q' per uscire");
-    /*string? ins = Console.ReadLine(); */char ins = Console.ReadKey(true).KeyChar; //hide carattere premuto
+    Console.WriteLine("-----Gestionale classe-----\n1 - Inserisci partecipante\n2 - Visualiza partecipanti\nq per uscire");
+    ins = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (ins)
     {
-        case 'q':
-            quit = ins;
-            Console.WriteLine();
-            break;
         case '1':
             Console.WriteLine("Inserire nome.");
             partecipanti.Add(Console.ReadLine()!);
