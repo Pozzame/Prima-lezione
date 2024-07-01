@@ -123,7 +123,7 @@ while (inserimento != 'q') //Esce con 'q'
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
-        case '1': // Lista partecipanti
+        case '1': //Lista partecipanti
             Console.Clear();
             Console.WriteLine($"Partecipanti: ({partecipanti.Count})");
             foreach (string studente in partecipanti) Console.WriteLine(studente);
@@ -141,7 +141,7 @@ while (inserimento != 'q') //Esce con 'q'
         case '4': //Edita
             do
             {
-                Console.WriteLine("-----Menù edit-----\n1 - Aggiunta nome\n2 - Elimina partecipante\n3 - Modifica\nb - Back"); //Menù
+                Console.WriteLine("-----Menù edit-----\n1 - Aggiunta nome\n2 - Elimina partecipante\n3 - Modifica\nb - Back"); //Menù edit
                 inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
                 switch (inserimento)
                 {
@@ -180,7 +180,7 @@ while (inserimento != 'q') //Esce con 'q'
             break;
     }
 }
-string ReadNome()
+string ReadNome() //Lettura nome con controllo digitazione
 {
     Console.WriteLine("Inserire nome");
     string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
