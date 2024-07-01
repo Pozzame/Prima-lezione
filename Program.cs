@@ -134,5 +134,9 @@ while (ins != 'q')
             foreach (string studente in partecipanti) Console.WriteLine(studente);
             Console.WriteLine();
             break;
+        default:
+            Console.Clear();
+            Console.WriteLine("Scelta non valida.\n");
+            break;
     }
 }
