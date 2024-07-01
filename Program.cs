@@ -137,8 +137,7 @@ while (inserimento != 'q')
         case '3':
             partecipanti.Sort();
             Console.WriteLine("d - Discendente?");
-            inserimento = Console.ReadKey(true).KeyChar;
-            if (inserimento == 'd') partecipanti.Reverse();
+            if (Console.ReadKey(true).KeyChar == 'd') partecipanti.Reverse();
             Console.Clear();
             break;
         default:
