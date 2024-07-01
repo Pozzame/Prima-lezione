@@ -65,13 +65,13 @@ List<string?> names = new List<string?>();
 string quit = "o";
 while (quit != "q")
 {
-    Console.WriteLine("Inserisci il nome. ('q' per uscire)");
-    string? ins = Console.ReadLine();
-    if (ins == "q")
-        quit = ins;
-    else names.Add(ins);
+    Console.WriteLine("inserimentoerisci il nome. ('q' per uscire)");
+    string? inserimento = Console.ReadLine();
+    if (inserimento == "q")
+        quit = inserimento;
+    else names.Add(inserimento);
 }
-Console.WriteLine($"Hai inserito {names.Count} nomi.");
+Console.WriteLine($"Hai inserimentoerito {names.Count} nomi.");
 foreach (string? name in names) Console.WriteLine(name);
 */
 /*
@@ -116,15 +116,15 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 
 //Console.Clear();
 List<string> partecipanti = new List<string>();
-char ins = 'o';
-while (ins != 'q')
+char inserimento = 'o';
+while (inserimento != 'q')
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - Inserisci partecipante\n2 - Visualiza partecipanti\nq per uscire");
-    ins = Console.ReadKey(true).KeyChar; //hide carattere premuto
-    switch (ins)
+    Console.WriteLine("-----Gestionale classe-----\n1 - inserimentoerisci partecipante\n2 - Visualiza partecipanti\n3 - Ordina\nq per uscire");
+    inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
+    switch (inserimento)
     {
         case '1':
-            Console.WriteLine("Inserire nome.");
+            Console.WriteLine("inserimentoerire nome");
             partecipanti.Add(Console.ReadLine()!);
             Console.Clear();
             break;
@@ -133,6 +133,13 @@ while (ins != 'q')
             Console.WriteLine("Partecipanti:");
             foreach (string studente in partecipanti) Console.WriteLine(studente);
             Console.WriteLine();
+            break;
+        case '3':
+            partecipanti.Sort();
+            Console.WriteLine("d - Discendente?");
+            inserimento = Console.ReadKey(true).KeyChar;
+            if (inserimento == 'd') partecipanti.Reverse();
+            Console.Clear();
             break;
         default:
             Console.Clear();
