@@ -112,10 +112,10 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista rimanente
     Console.WriteLine("\nStudenti sorteggiati:");
     foreach (string student in sorteggiati) Console.WriteLine(student); //Stampa lista sorteggiati
-    Console.WriteLine();*/
-
+    Console.WriteLine();
+*/
 //Console.Clear();
-/*List<string> partecipanti = new List<string>() { "Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano" };
+List<string> partecipanti = new List<string>() { "Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano" };
 char inserimento = 'o';
 while (inserimento != 'q') //Esce con 'q'
 {
@@ -185,7 +185,7 @@ string ReadNome() //Lettura nome con controllo digitazione
     Console.WriteLine("Inserire nome");
     string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
     return nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
-}*/
+}
 /*
 var colori = new Dictionary<string, string>{
 {"rosso", "#FF0000"},
@@ -195,7 +195,7 @@ var colori = new Dictionary<string, string>{
 foreach (KeyValuePair<string,string> colore in colori) // KeyValuePair è una struttura che rappresenta una coppia chiave-valore
 {
     Console.WriteLine($"Il colore {colore.Key} ha il codice {colore.Value}");
-}*/
+}
 var listaSpesa = new Dictionary<string, int>();
 listaSpesa.Add("pane", 1);
 listaSpesa.Add("latte", 2);
@@ -211,4 +211,4 @@ foreach (KeyValuePair<string, int> articolo in listaSpesa)
     // Console.WriteLine("Articolo: " + articolo.Key + ", Quantità: " + articolo.Value);
     // oppure utilizzando l'interpolazione di stringa
     Console.WriteLine($"Articolo: {articolo.Key}, Quantità: {articolo.Value}");
-}
+}*/
