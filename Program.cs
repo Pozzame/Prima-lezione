@@ -73,23 +73,43 @@ while (quit != "q")
 }
 Console.WriteLine($"Hai inserimentoerito {names.Count} nomi.");
 foreach (string? name in names) Console.WriteLine(name);
-*/
-/*
-string[] students = ["Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"];
-List<string> studenti = new List<string>(students);
+
+
+string[] students = ["Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"];*/
+List<string> studenti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Francesco", "Silvano"};
 Random rng = new Random();
-Console.WriteLine(" - Lista:");
-foreach (string student in studenti) Console.WriteLine(student);
+List<string> squadra1 = new List<string>();
+List<string> squadra2 = new List<string>();
+Console.WriteLine(" - Studenti:");
+foreach (string student in studenti) Console.WriteLine(student);/*
 Console.WriteLine(" - Array:");
 foreach (string student in students) Console.WriteLine(student);
 
-Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array.");
-
+Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array.");*/
+while (studenti.Count > 0)
+{
+    int scelto = rng.Next(studenti.Count);
+    if (studenti.Count%2==0)
+    {
+        squadra1.Add(studenti[scelto]);
+        Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà inserito nella squadra1");
+    } else 
+    {
+        squadra2.Add(studenti[scelto]);
+        Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà inserito nella squadra2");
+    }
+    studenti.RemoveAt(scelto);
+}
+Console.WriteLine(" - Squadra1:");
+foreach (string student in squadra1) Console.WriteLine(student);
+Console.WriteLine(" - Squadra2:");
+foreach (string student in squadra2) Console.WriteLine(student);
+/*
 int eleList = rng.Next(studenti.Count);
-Console.WriteLine($"E' stato sorteggiato {studenti[eleList]} dalla List, e sarà rimosso");
+Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà rimosso");
 studenti.RemoveAt(eleList);
 foreach (string student in studenti) Console.WriteLine(student);
-*/
+
 /*Console.Clear();
 List<string> partecipanti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"}; //Dichiarazione e popolamento lista con costruttore
 List<string> sorteggiati = new List<string>(); //Lista sorteggiati creata vuota
@@ -115,6 +135,7 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     Console.WriteLine();
 */
 //Console.Clear();
+/*
 List<string> partecipanti = new List<string>() { "Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano" };
 char inserimento = 'o';
 while (inserimento != 'q') //Esce con 'q'
@@ -186,6 +207,7 @@ string ReadNome() //Lettura nome con controllo digitazione
     string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
     return nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
 }
+*/
 /*
 var colori = new Dictionary<string, string>{
 {"rosso", "#FF0000"},
