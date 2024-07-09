@@ -76,27 +76,33 @@ foreach (string? name in names) Console.WriteLine(name);
 
 
 string[] students = ["Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"];*/
+/*
+using Spectre.Console;
 List<string> studenti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Francesco", "Silvano"};
 Random rng = new Random();
 List<string> squadra1 = new List<string>();
 List<string> squadra2 = new List<string>();
-Console.WriteLine(" - Studenti:");
+/*Console.WriteLine(" - Studenti:");
 foreach (string student in studenti) Console.WriteLine(student);/*
 Console.WriteLine(" - Array:");
 foreach (string student in students) Console.WriteLine(student);
 
 Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array.");*/
+/*var lista = new Table();
+lista.AddColumn("Studenti");
+foreach (string student in studenti) lista.AddRow(student);
+AnsiConsole.Write(lista);
 while (studenti.Count > 0)
 {
     int scelto = rng.Next(studenti.Count);
     if (studenti.Count%2==0)
     {
         squadra1.Add(studenti[scelto]);
-        Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà inserito nella squadra1");
+        //Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà inserito nella squadra1");
     } else 
     {
         squadra2.Add(studenti[scelto]);
-        Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà inserito nella squadra2");
+        //Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà inserito nella squadra2");
     }
     studenti.RemoveAt(scelto);
 }
@@ -104,13 +110,37 @@ Console.WriteLine(" - Squadra1:");
 foreach (string student in squadra1) Console.WriteLine(student);
 Console.WriteLine(" - Squadra2:");
 foreach (string student in squadra2) Console.WriteLine(student);
-/*
+// esempio di tabella
+var table = new Table();
+table.AddColumn("Squadra1");
+table.AddColumn("Squadra2");
+for (int i=0; i<squadra1.Count;i++) table.AddRow(squadra1[i], squadra2[i]);
+AnsiConsole.Write(table);
+
 int eleList = rng.Next(studenti.Count);
 Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà rimosso");
 studenti.RemoveAt(eleList);
 foreach (string student in studenti) Console.WriteLine(student);
+*/
+using Spectre.Console;
+var table6 = new Table();
+table6.AddColumn("Nome");
+table6.AddColumn("Soprannome");
+table6.AddColumn("Cognome");
+table6.AddColumn("Anno");
 
-/*Console.Clear();
+var partecipanti2 = new Dictionary<(string, string), (string, int)>
+{
+    {("Mario", "Cane"), ("Rossi", 1990)},
+    {("Luca", "Nonno"), ("Verdi", 1980)},
+    {("Paolo", "Ciccio"), ("Bianchi", 1970)}
+};
+foreach (var partecipante in partecipanti2)
+    table6.AddRow(partecipante.Key.Item1, partecipante.Key.Item2, partecipante.Value.Item1, partecipante.Value.Item2.ToString());
+AnsiConsole.Write(table6);
+
+/*
+Console.Clear();
 List<string> partecipanti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"}; //Dichiarazione e popolamento lista con costruttore
 List<string> sorteggiati = new List<string>(); //Lista sorteggiati creata vuota
 Random rng = new Random();
