@@ -241,7 +241,7 @@ while (inserimento != 'q') //Esce con 'q'
             {
                 int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
                 if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
-                partecipanti.RemoveAt(scelto); //Lo rimuove dalal lista iniziale
+                partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
             }
             var table = new Table();
             table.AddColumn("Squadra1");
