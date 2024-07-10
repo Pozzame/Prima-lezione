@@ -235,30 +235,25 @@ while (inserimento != 'q') //Esce con 'q'
             Console.Clear();
             var lista = new Table();
             lista.AddColumn("Partecipanti");
-            foreach (string student in partecipanti) lista.AddRow(student);
-            AnsiConsole.Write(lista);
-            while (partecipanti.Count > 0)
+            foreach (string student in partecipanti) lista.AddRow(student); //Crea una tabella con i partecipanti
+            AnsiConsole.Write(lista); //Stampa la tabella
+            while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
             {
-                int scelto = rng.Next(partecipanti.Count);
-                if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]);
-                partecipanti.RemoveAt(scelto);
+                int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
+                if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
+                partecipanti.RemoveAt(scelto); //Lo rimuove dalal lista iniziale
             }
             var table = new Table();
             table.AddColumn("Squadra1");
             table.AddColumn("Squadra2");
-            if (squadra1.Count==squadra2.Count) for (int i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
-            else if (squadra1.Count<squadra2.Count)  
-            {
-                int i;
-                for ( i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
-                table.AddRow("", squadra2[i]);            
-            } else
+            if (squadra1.Count==squadra2.Count) for (int i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]); //Crea la tabella delle squadre se hanno lo stesso numero
+            else //Crea la tabella delle squadre se la prima ne ha uno in più
             {
                 int i;
                 for ( i = 0; i < squadra2.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
                 table.AddRow(squadra1[i], ""); 
             }
-            AnsiConsole.Write(table);
+            AnsiConsole.Write(table); //Stampa la tabella
             break;
         default: //Non valido
             Console.Clear();
