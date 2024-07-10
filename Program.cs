@@ -87,8 +87,8 @@ foreach (string student in studenti) Console.WriteLine(student);/*
 Console.WriteLine(" - Array:");
 foreach (string student in students) Console.WriteLine(student);
 
-Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array.");*/
-/*var lista = new Table();
+Console.WriteLine($"E' stato sorteggiato {studenti[rng.Next(studenti.Count)]} dalla List.\nE' stato sorteggiato {studenti[rng.Next(students.Length)]} dall'Array.");
+var lista = new Table();
 lista.AddColumn("Studenti");
 foreach (string student in studenti) lista.AddRow(student);
 AnsiConsole.Write(lista);
@@ -122,22 +122,24 @@ Console.WriteLine($"E' stato sorteggiato {studenti[scelto]} dalla List, e sarà 
 studenti.RemoveAt(eleList);
 foreach (string student in studenti) Console.WriteLine(student);
 */
+/*
 using Spectre.Console;
-var table6 = new Table();
-table6.AddColumn("Nome");
-table6.AddColumn("Soprannome");
-table6.AddColumn("Cognome");
-table6.AddColumn("Anno");
+            var table6 = new Table();
+            table6.AddColumn("Nome");
+            table6.AddColumn("Soprannome");
+            table6.AddColumn("Cognome");
+            table6.AddColumn("Anno");
 
-var partecipanti2 = new Dictionary<(string, string), (string, int)>
-{
-    {("Mario", "Cane"), ("Rossi", 1990)},
-    {("Luca", "Nonno"), ("Verdi", 1980)},
-    {("Paolo", "Ciccio"), ("Bianchi", 1970)}
-};
-foreach (var partecipante in partecipanti2)
-    table6.AddRow(partecipante.Key.Item1, partecipante.Key.Item2, partecipante.Value.Item1, partecipante.Value.Item2.ToString());
-AnsiConsole.Write(table6);
+            var partecipanti2 = new Dictionary<(string, string), (string, int)>
+            {
+                {("Mario", "Cane"), ("Rossi", 1990)},
+                {("Luca", "Nonno"), ("Verdi", 1980)},
+                {("Paolo", "Ciccio"), ("Bianchi", 1970)}
+            };
+            foreach (var partecipante in partecipanti2)
+                table6.AddRow(partecipante.Key.Item1, partecipante.Key.Item2, partecipante.Value.Item1, partecipante.Value.Item2.ToString());
+            AnsiConsole.Write(table6);
+*/
 
 /*
 Console.Clear();
@@ -165,12 +167,15 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     Console.WriteLine();
 */
 //Console.Clear();
-/*
-List<string> partecipanti = new List<string>() { "Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano" };
+using Spectre.Console;
+Random rng = new Random();
+List<string> partecipanti = new List<string>() { "Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Francesco", "Silvano" };
+List<string> squadra1 = new List<string>();
+List<string> squadra2 = new List<string>();
 char inserimento = 'o';
 while (inserimento != 'q') //Esce con 'q'
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\nq per uscire"); //Menù principale
+    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\n5 - Crea squadre\nq per uscire"); //Menù principale
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
@@ -204,9 +209,10 @@ while (inserimento != 'q') //Esce con 'q'
                         nom = ReadNome();
                         if (partecipanti.Contains(nom))
                         {
-                            partecipanti.Remove(nom); 
+                            partecipanti.Remove(nom);
                             Console.WriteLine($"{nom} è stato rimosso.");
-                        } else Console.WriteLine($"{nom} non è presente");
+                        }
+                        else Console.WriteLine($"{nom} non è presente");
                         break;
                     case '3': //Modifica partecipante
                         nom = ReadNome();
@@ -225,6 +231,35 @@ while (inserimento != 'q') //Esce con 'q'
                 }
             } while (inserimento != 'b'); //Esce con 'b'
             break;
+        case '5': //Crea squadre
+            Console.Clear();
+            var lista = new Table();
+            lista.AddColumn("Partecipanti");
+            foreach (string student in partecipanti) lista.AddRow(student);
+            AnsiConsole.Write(lista);
+            while (partecipanti.Count > 0)
+            {
+                int scelto = rng.Next(partecipanti.Count);
+                if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]);
+                partecipanti.RemoveAt(scelto);
+            }
+            var table = new Table();
+            table.AddColumn("Squadra1");
+            table.AddColumn("Squadra2");
+            if (squadra1.Count==squadra2.Count) for (int i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
+            else if (squadra1.Count<squadra2.Count)  
+            {
+                int i;
+                for ( i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
+                table.AddRow("", squadra2[i]);            
+            } else
+            {
+                int i;
+                for ( i = 0; i < squadra2.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
+                table.AddRow(squadra1[i], ""); 
+            }
+            AnsiConsole.Write(table);
+            break;
         default: //Non valido
             Console.Clear();
             Console.WriteLine("Scelta non valida.\n");
@@ -237,7 +272,7 @@ string ReadNome() //Lettura nome con controllo digitazione
     string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
     return nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
 }
-*/
+
 /*
 var colori = new Dictionary<string, string>{
 {"rosso", "#FF0000"},
