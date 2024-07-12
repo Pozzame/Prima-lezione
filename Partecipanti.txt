@@ -1,6 +1,6 @@
 Allison
 Caio
-Cane
+Carlo
 Ciccio
 Daniele
 Francesco
@@ -10,3 +10,4 @@ Mattia
 Sempronio
 Serghej
 Silvano
+Pino

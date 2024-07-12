@@ -143,7 +143,7 @@ using Spectre.Console;
 */
 
 /*
-Console.Clear();
+
 List<string> partecipanti = new List<string> {"Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Sharon", "Silvano"}; //Dichiarazione e popolamento lista con costruttore
 List<string> sorteggiati = new List<string>(); //Lista sorteggiati creata vuota
 Random rng = new Random();
@@ -159,7 +159,7 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     sorteggiati.Add(partecipanti[eleList]); //Aggiunge studente sorteggiato nella lista dei sorteggiati
     partecipanti.RemoveAt(eleList); //Rimuove elemento dalla lista
     Console.ReadKey(true);
-    Console.Clear();
+    
 }
     Console.WriteLine("Studenti rimanenti:");
     foreach (string student in partecipanti) Console.WriteLine(student); //Stampa lista rimanente
@@ -173,40 +173,52 @@ Random rng = new Random();
 List<string> partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
 List<string> squadra1 = new List<string>();
 List<string> squadra2 = new List<string>();
-char inserimento = 'o';
 Console.Clear();
-while (inserimento != 'q') //Esce con 'q'
+var inserimento = "";
+do
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\n5 - Salva lista\n6 - Menù squadre\nq per uscire"); //Menù principale
-    inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
+    inserimento = AnsiConsole.Prompt(
+    new SelectionPrompt<string>()
+        .Title("-----Gestionale classe-----")
+        .PageSize(7)
+        .MoreChoicesText("[grey](Move up and down to select[/]")
+        .AddChoices(new[] {
+            "Visualiza partecipanti", "Ordina", "Ricerca", "Edita",
+            "Salva lista", "Menù squadre", "Esci",
+        }));
     switch (inserimento)
     {
-        case '1': //Lista partecipanti
+        case "Visualiza partecipanti": //Lista partecipanti
             Console.Clear();
             Funzioni.Lista(partecipanti);
             break;
-        case '2': //Ordinamento
+        case "Ordina": //Ordinamento
             partecipanti.Sort();
             Console.WriteLine("d - Discendente?");
             if (Console.ReadKey(true).KeyChar == 'd') partecipanti.Reverse();
-            Console.Clear();
             break;
-        case '3': //Controlla se già presente
+        case "Ricerca": //Controlla se già presente
             if (partecipanti.Contains(Funzioni.ReadNome())) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
             break;
-        case '4': //Edita
+        case "Edita": //Edita
             do
             {
-                Console.WriteLine("-----Menù edit-----\n1 - Aggiunta nome\n2 - Elimina partecipante\n3 - Modifica\nb - Back"); //Menù edit
-                inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
+                inserimento = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("-----Menù edit-----")
+                    .PageSize(4)
+                    .MoreChoicesText("[grey](Move up and down to select[/]")
+                    .AddChoices(new[] {
+                        "Aggiunta nome", "Elimina partecipante", "Modifica",
+                        "Back",
+                    }));
                 switch (inserimento)
                 {
-                    case '1': //Aggiunge nome
-                        Console.Clear();
+                    case "Aggiunta nome": //Aggiunge nome
                         string nom = Funzioni.ReadNome();
                         if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlla che il nome non sia già presente
                         break;
-                    case '2': //Elimina partecipante
+                    case "Elimina partecipante": //Elimina partecipante
                         nom = Funzioni.ReadNome();
                         if (partecipanti.Contains(nom))
                         {
@@ -215,7 +227,7 @@ while (inserimento != 'q') //Esce con 'q'
                         }
                         else Console.WriteLine($"{nom} non era presente.");
                         break;
-                    case '3': //Modifica partecipante
+                    case "Modifica": //Modifica partecipante
                         nom = Funzioni.ReadNome();
                         if (partecipanti.Contains(nom)) //Verifica che sia presente
                         {
@@ -225,39 +237,45 @@ while (inserimento != 'q') //Esce con 'q'
                         }
                         else Console.WriteLine($"{nom} non è nella lista.");
                         break;
-                    default: //Non valido
-                        Console.Clear();
-                        Console.WriteLine("Scelta non valida.\n");
-                        break;
                 }
-            } while (inserimento != 'b'); //Esce con 'b'
+            } while (inserimento != "Back"); //Esce con 'b'
             break;
-        case '5': //Salva lista
-            Console.Clear();
+        case "Salva lista": //Salva lista
             File.Delete("Partecipanti.txt");
             File.AppendAllLines("Partecipanti.txt", partecipanti);
             Console.WriteLine("Nuova lista salvata!");
             break;
-        case '6': //Menù squadre
+        case "Menù squadre": //Menù squadre
             do
             {
-                Console.WriteLine("-----Menù squadre-----\n1 - Crea squadre\n2 - Salva squadre\n3 - Ricarica partecipanti\nb - Back"); //Menù squadre
-                inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
+                inserimento = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("-----Menù squadre------")
+                    .PageSize(4)
+                    .MoreChoicesText("[grey](Move up and down to select[/]")
+                    .AddChoices(new[] {
+                        "Crea squadre", "Salva squadre", "Ricarica partecipanti",
+                        "Back",
+                    }));
                 switch (inserimento)
                 {
-                    case '1': //Crea squadre
+                    case "Crea squadre": //Crea squadre
                         Console.Clear();
-                        Funzioni.Lista(partecipanti);
+                        //Funzioni.Lista(partecipanti);
+                        squadra1.Clear();
+                        squadra2.Clear();
+                        List<string>temp=new List<string>(partecipanti);
                         while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
                         {
                             int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
                             if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
                             partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
                         }
-                        Funzioni.Lista(squadra1, squadra2);
+                        //partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
+                        Funzioni.Lista(temp, squadra1, squadra2);
+                        //partecipanti.Clear();
                         break;
-                    case '2': //Salva squadre
-                        Console.Clear();
+                    case "Salva squadre": //Salva squadre
                         if (File.Exists("Squadre.txt"))
                             File.Delete("Squadre.txt");
                         File.AppendAllText("Squadre.txt", $"Squadra 1\n");
@@ -266,24 +284,15 @@ while (inserimento != 'q') //Esce con 'q'
                         File.AppendAllLines("Squadre.txt", squadra2);
                         Console.WriteLine("Squadre salvate!");
                         break;
-                    case '3': //Ricarica Partecipanti
-                        Console.Clear();
+                    case "Ricarica partecipanti": //Ricarica Partecipanti
                         partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
                         Console.WriteLine("Lista ricaricata!");
                         break;
-                    default: //Non valido
-                        Console.Clear();
-                        Console.WriteLine("Scelta non valida.\n");
-                        break;
                 }
-            } while (inserimento != 'b'); //Esce con 'b'
-            break;
-        default: //Non valido
-            Console.Clear();
-            Console.WriteLine("Scelta non valida.\n");
+            } while (inserimento != "Back"); //Esce con 'b'
             break;
     }
-}
+} while (inserimento != "Esci"); //Esce con 'q'
 
 public static class Funzioni
 {
@@ -302,17 +311,20 @@ public static class Funzioni
         AnsiConsole.Write(lista); //Stampa la tabella
     }
 
-    public static void Lista(List<string> squadra1, List<string> squadra2)
+    public static void Lista(List<string> partecipanti, List<string> squadra1, List<string> squadra2)
     {
         var table = new Table();
+        table.AddColumn("Partecipanti");
         table.AddColumn("Squadra1");
         table.AddColumn("Squadra2");
-        if (squadra1.Count == squadra2.Count) for (int i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]); //Crea la tabella delle squadre se hanno lo stesso numero
-        else //Crea la tabella delle squadre se la prima ne ha uno in più
+        for (int i = 0; i < partecipanti.Count(); i++)
         {
-            int i;
-            for (i = 0; i < squadra2.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
-            table.AddRow(squadra1[i], "");
+            if (squadra2.Count > i)
+                table.AddRow(partecipanti[i], squadra1[i], squadra2[i]);
+            else if (squadra1.Count > i)
+                table.AddRow(partecipanti[i], squadra1[i], "");
+            else
+                table.AddRow(partecipanti[i], "", "");
         }
         AnsiConsole.Write(table); //Stampa la tabella
     }

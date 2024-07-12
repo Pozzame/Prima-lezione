@@ -1,12 +1,16 @@
 Squadra 1
-Cane
-Allison
-Francesco
-Silvano
-Ciccio
-Squadra 2
-Daniele
-Serghej
-Ginevra
+Carlo
 Matteo
+Ginevra
 Mattia
+Silvano
+Caio
+Pino
+
+Squadra 2
+Allison
+Sempronio
+Francesco
+Serghej
+Daniele
+Ciccio
