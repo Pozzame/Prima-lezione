@@ -256,7 +256,7 @@ while (inserimento != 'q') //Esce con 'q'
                         }
                         Funzioni.Lista(squadra1, squadra2);
                         break;
-                    case '2': // Salva squadre
+                    case '2': //Salva squadre
                         Console.Clear();
                         if (File.Exists("Squadre.txt"))
                             File.Delete("Squadre.txt");
@@ -266,7 +266,7 @@ while (inserimento != 'q') //Esce con 'q'
                         File.AppendAllLines("Squadre.txt", squadra2);
                         Console.WriteLine("Squadre salvate!");
                         break;
-                    case '3': // Ricarica Partecipanti
+                    case '3': //Ricarica Partecipanti
                         Console.Clear();
                         partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
                         Console.WriteLine("Lista ricaricata!");
