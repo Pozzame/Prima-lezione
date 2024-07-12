@@ -202,7 +202,7 @@ while (inserimento != 'q') //Esce con 'q'
                 switch (inserimento)
                 {
                     case '1': //Aggiunge nome
-                    Console.Clear();
+                        Console.Clear();
                         string nom = Funzioni.ReadNome();
                         if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlla che il nome non sia già presente
                         break;
@@ -213,7 +213,7 @@ while (inserimento != 'q') //Esce con 'q'
                             partecipanti.Remove(nom);
                             Console.WriteLine($"{nom} è stato rimosso.");
                         }
-                        else Console.WriteLine($"{nom} non è presente");
+                        else Console.WriteLine($"{nom} non era presente.");
                         break;
                     case '3': //Modifica partecipante
                         nom = Funzioni.ReadNome();
@@ -221,7 +221,7 @@ while (inserimento != 'q') //Esce con 'q'
                         {
                             string nuovoNome = Funzioni.ReadNome();
                             partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
-                            Console.WriteLine($"{nom} è stato modificato in {nuovoNome}");
+                            Console.WriteLine($"{nom} è stato modificato in {nuovoNome}.");
                         }
                         else Console.WriteLine($"{nom} non è nella lista.");
                         break;
@@ -236,6 +236,7 @@ while (inserimento != 'q') //Esce con 'q'
             Console.Clear();
             File.Delete("Partecipanti.txt");
             File.AppendAllLines("Partecipanti.txt", partecipanti);
+            Console.WriteLine("Nuova lista salvata!");
             break;
         case '6': //Menù squadre
             do
@@ -259,13 +260,16 @@ while (inserimento != 'q') //Esce con 'q'
                         Console.Clear();
                         if (File.Exists("Squadre.txt"))
                             File.Delete("Squadre.txt");
-                        File.AppendAllText("Squadre.txt", $"Squadra 1\n{squadra1.}\n\nSquadra2\n{squadra2.ToString()}");
+                        File.AppendAllText("Squadre.txt", $"Squadra 1\n");
+                        File.AppendAllLines("Squadre.txt", squadra1);
+                        File.AppendAllText("Squadre.txt", $"\nSquadra 2\n");
+                        File.AppendAllLines("Squadre.txt", squadra2);
                         Console.WriteLine("Squadre salvate!");
                         break;
                     case '3': // Ricarica Partecipanti
-                    Console.Clear();
+                        Console.Clear();
                         partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
-                        Console.WriteLine("Lista ricaricacata!");
+                        Console.WriteLine("Lista ricaricata!");
                         break;
                     default: //Non valido
                         Console.Clear();
@@ -274,7 +278,6 @@ while (inserimento != 'q') //Esce con 'q'
                 }
             } while (inserimento != 'b'); //Esce con 'b'
             break;
-
         default: //Non valido
             Console.Clear();
             Console.WriteLine("Scelta non valida.\n");

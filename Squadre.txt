@@ -1,5 +1,12 @@
 Squadra 1
-System.Collections.Generic.List`1[System.String]
-
-Squadra2
-System.Collections.Generic.List`1[System.String]
+Cane
+Allison
+Francesco
+Silvano
+Ciccio
+Squadra 2
+Daniele
+Serghej
+Ginevra
+Matteo
+Mattia
