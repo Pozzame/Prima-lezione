@@ -174,9 +174,10 @@ List<string> partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt
 List<string> squadra1 = new List<string>();
 List<string> squadra2 = new List<string>();
 char inserimento = 'o';
+Console.Clear();
 while (inserimento != 'q') //Esce con 'q'
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\n5 - Salva lista\n6 - Crea squadre\nq per uscire"); //Menù principale
+    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\n5 - Salva lista\n6 - Menù squadre\nq per uscire"); //Menù principale
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
@@ -201,8 +202,9 @@ while (inserimento != 'q') //Esce con 'q'
                 switch (inserimento)
                 {
                     case '1': //Aggiunge nome
+                    Console.Clear();
                         string nom = Funzioni.ReadNome();
-                        if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlal che il nome non sia già presente
+                        if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlla che il nome non sia già presente
                         break;
                     case '2': //Elimina partecipante
                         nom = Funzioni.ReadNome();
@@ -235,17 +237,44 @@ while (inserimento != 'q') //Esce con 'q'
             File.Delete("Partecipanti.txt");
             File.AppendAllLines("Partecipanti.txt", partecipanti);
             break;
-        case '6': //Crea squadre
-            Console.Clear();
-            Funzioni.Lista(partecipanti);
-            while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
+        case '6': //Menù squadre
+            do
             {
-                int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
-                if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
-                partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
-            }
-            Funzioni.Lista(squadra1, squadra2);
+                Console.WriteLine("-----Menù squadre-----\n1 - Crea squadre\n2 - Salva squadre\n3 - Ricarica partecipanti\nb - Back"); //Menù squadre
+                inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
+                switch (inserimento)
+                {
+                    case '1': //Crea squadre
+                        Console.Clear();
+                        Funzioni.Lista(partecipanti);
+                        while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
+                        {
+                            int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
+                            if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
+                            partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
+                        }
+                        Funzioni.Lista(squadra1, squadra2);
+                        break;
+                    case '2': // Salva squadre
+                        Console.Clear();
+                        if (File.Exists("Squadre.txt"))
+                            File.Delete("Squadre.txt");
+                        File.AppendAllText("Squadre.txt", $"Squadra 1\n{squadra1.}\n\nSquadra2\n{squadra2.ToString()}");
+                        Console.WriteLine("Squadre salvate!");
+                        break;
+                    case '3': // Ricarica Partecipanti
+                    Console.Clear();
+                        partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
+                        Console.WriteLine("Lista ricaricacata!");
+                        break;
+                    default: //Non valido
+                        Console.Clear();
+                        Console.WriteLine("Scelta non valida.\n");
+                        break;
+                }
+            } while (inserimento != 'b'); //Esce con 'b'
             break;
+
         default: //Non valido
             Console.Clear();
             Console.WriteLine("Scelta non valida.\n");
