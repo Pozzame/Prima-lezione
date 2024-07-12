@@ -169,21 +169,19 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 //Console.Clear();
 using Spectre.Console;
 Random rng = new Random();
-List<string> partecipanti = new List<string>() { "Mattia", "Matteo", "Serghej", "Allison", "Ginevra", "Daniele", "Francesco", "Silvano" };
+List<string> partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
 List<string> squadra1 = new List<string>();
 List<string> squadra2 = new List<string>();
 char inserimento = 'o';
 while (inserimento != 'q') //Esce con 'q'
 {
-    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\n5 - Crea squadre\nq per uscire"); //Menù principale
+    Console.WriteLine("-----Gestionale classe-----\n1 - Visualiza partecipanti\n2 - Ordina\n3 - Ricerca\n4 - Edita\n5 - Salva lista\n6 - Crea squadre\nq per uscire"); //Menù principale
     inserimento = Console.ReadKey(true).KeyChar; //hide carattere premuto
     switch (inserimento)
     {
         case '1': //Lista partecipanti
             Console.Clear();
-            Console.WriteLine($"Partecipanti: ({partecipanti.Count})");
-            foreach (string studente in partecipanti) Console.WriteLine(studente);
-            Console.WriteLine();
+            Funzioni.Lista(partecipanti);
             break;
         case '2': //Ordinamento
             partecipanti.Sort();
@@ -192,7 +190,7 @@ while (inserimento != 'q') //Esce con 'q'
             Console.Clear();
             break;
         case '3': //Controlla se già presente
-            if (partecipanti.Contains(ReadNome())) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
+            if (partecipanti.Contains(Funzioni.ReadNome())) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
             break;
         case '4': //Edita
             do
@@ -202,11 +200,11 @@ while (inserimento != 'q') //Esce con 'q'
                 switch (inserimento)
                 {
                     case '1': //Aggiunge nome
-                        string nom = ReadNome();
+                        string nom = Funzioni.ReadNome();
                         if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlal che il nome non sia già presente
                         break;
                     case '2': //Elimina partecipante
-                        nom = ReadNome();
+                        nom = Funzioni.ReadNome();
                         if (partecipanti.Contains(nom))
                         {
                             partecipanti.Remove(nom);
@@ -215,10 +213,10 @@ while (inserimento != 'q') //Esce con 'q'
                         else Console.WriteLine($"{nom} non è presente");
                         break;
                     case '3': //Modifica partecipante
-                        nom = ReadNome();
+                        nom = Funzioni.ReadNome();
                         if (partecipanti.Contains(nom)) //Verifica che sia presente
                         {
-                            string nuovoNome = ReadNome();
+                            string nuovoNome = Funzioni.ReadNome();
                             partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
                             Console.WriteLine($"{nom} è stato modificato in {nuovoNome}");
                         }
@@ -231,29 +229,21 @@ while (inserimento != 'q') //Esce con 'q'
                 }
             } while (inserimento != 'b'); //Esce con 'b'
             break;
-        case '5': //Crea squadre
+        case '5': //Salva lista
             Console.Clear();
-            var lista = new Table();
-            lista.AddColumn("Partecipanti");
-            foreach (string student in partecipanti) lista.AddRow(student); //Crea una tabella con i partecipanti
-            AnsiConsole.Write(lista); //Stampa la tabella
+            File.Delete("Partecipanti.txt");
+            File.AppendAllLines("Partecipanti.txt", partecipanti);
+            break;
+        case '6': //Crea squadre
+            Console.Clear();
+            Funzioni.Lista(partecipanti);
             while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
             {
                 int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
                 if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
                 partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
             }
-            var table = new Table();
-            table.AddColumn("Squadra1");
-            table.AddColumn("Squadra2");
-            if (squadra1.Count==squadra2.Count) for (int i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]); //Crea la tabella delle squadre se hanno lo stesso numero
-            else //Crea la tabella delle squadre se la prima ne ha uno in più
-            {
-                int i;
-                for ( i = 0; i < squadra2.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
-                table.AddRow(squadra1[i], ""); 
-            }
-            AnsiConsole.Write(table); //Stampa la tabella
+            Funzioni.Lista(squadra1, squadra2);
             break;
         default: //Non valido
             Console.Clear();
@@ -261,13 +251,39 @@ while (inserimento != 'q') //Esce con 'q'
             break;
     }
 }
-string ReadNome() //Lettura nome con controllo digitazione
-{
-    Console.WriteLine("Inserire nome");
-    string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
-    return nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
-}
 
+public static class Funzioni
+{
+    public static string ReadNome() //Lettura nome con controllo digitazione
+    {
+        Console.WriteLine("Inserire nome");
+        string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
+        return nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
+    }
+
+    public static void Lista(List<string> partecipanti)
+    {
+        var lista = new Table();
+        lista.AddColumn("Partecipanti");
+        foreach (string student in partecipanti) lista.AddRow(student); //Crea una tabella con i partecipanti
+        AnsiConsole.Write(lista); //Stampa la tabella
+    }
+
+    public static void Lista(List<string> squadra1, List<string> squadra2)
+    {
+        var table = new Table();
+        table.AddColumn("Squadra1");
+        table.AddColumn("Squadra2");
+        if (squadra1.Count == squadra2.Count) for (int i = 0; i < squadra1.Count; i++) table.AddRow(squadra1[i], squadra2[i]); //Crea la tabella delle squadre se hanno lo stesso numero
+        else //Crea la tabella delle squadre se la prima ne ha uno in più
+        {
+            int i;
+            for (i = 0; i < squadra2.Count; i++) table.AddRow(squadra1[i], squadra2[i]);
+            table.AddRow(squadra1[i], "");
+        }
+        AnsiConsole.Write(table); //Stampa la tabella
+    }
+}
 /*
 var colori = new Dictionary<string, string>{
 {"rosso", "#FF0000"},
