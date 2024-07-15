@@ -170,7 +170,7 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 
 using Spectre.Console;
 Random rng = new Random();
-List<string> partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
+List<string> partecipanti = new List<string>(File.ReadAllLines(@"Partecipanti.txt"));
 Console.Clear();
 var inserimento = "";
 do
