@@ -171,8 +171,6 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 using Spectre.Console;
 Random rng = new Random();
 List<string> partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
-List<string> squadra1 = new List<string>();
-List<string> squadra2 = new List<string>();
 Console.Clear();
 var inserimento = "";
 do
@@ -246,6 +244,8 @@ do
             Console.WriteLine("Nuova lista salvata!");
             break;
         case "Menù squadre": //Menù squadre
+            List<string> squadra1 = new List<string>();
+            List<string> squadra2 = new List<string>();
             do
             {
                 inserimento = AnsiConsole.Prompt(
@@ -264,7 +264,7 @@ do
                         //Funzioni.Lista(partecipanti);
                         squadra1.Clear();
                         squadra2.Clear();
-                        List<string>temp=new List<string>(partecipanti);
+                        List<string> temp = new List<string>(partecipanti);
                         while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
                         {
                             int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
@@ -276,13 +276,7 @@ do
                         //partecipanti.Clear();
                         break;
                     case "Salva squadre": //Salva squadre
-                        if (File.Exists("Squadre.txt"))
-                            File.Delete("Squadre.txt");
-                        File.AppendAllText("Squadre.txt", $"Squadra 1\n");
-                        File.AppendAllLines("Squadre.txt", squadra1);
-                        File.AppendAllText("Squadre.txt", $"\nSquadra 2\n");
-                        File.AppendAllLines("Squadre.txt", squadra2);
-                        Console.WriteLine("Squadre salvate!");
+                        Funzioni.salvaSquadre("Squadre.txt", squadra1, squadra2);
                         break;
                     case "Ricarica partecipanti": //Ricarica Partecipanti
                         partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
@@ -302,7 +296,6 @@ public static class Funzioni
         string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
         return nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
     }
-
     public static void Lista(List<string> partecipanti)
     {
         var lista = new Table();
@@ -310,7 +303,6 @@ public static class Funzioni
         foreach (string student in partecipanti) lista.AddRow(student); //Crea una tabella con i partecipanti
         AnsiConsole.Write(lista); //Stampa la tabella
     }
-
     public static void Lista(List<string> partecipanti, List<string> squadra1, List<string> squadra2)
     {
         var table = new Table();
@@ -327,5 +319,15 @@ public static class Funzioni
                 table.AddRow(partecipanti[i], "", "");
         }
         AnsiConsole.Write(table); //Stampa la tabella
+    }
+    public static void salvaSquadre(string path, List<string> squadra1, List<string> squadra2)
+    {
+        if (File.Exists(path))
+            File.Delete(path);
+        File.AppendAllText(path, $"Squadra 1\n");
+        File.AppendAllLines(path, squadra1);
+        File.AppendAllText(path, $"\nSquadra 2\n");
+        File.AppendAllLines(path, squadra2);
+        Console.WriteLine("Squadre salvate!");
     }
 }
