@@ -172,7 +172,7 @@ using Spectre.Console;
 Random rng = new Random();
 List<string> partecipanti = new List<string>(File.ReadAllLines(@"Partecipanti.txt"));
 Console.Clear();
-var inserimento = "";
+string inserimento = "";
 do
 {
     inserimento = AnsiConsole.Prompt(
@@ -283,10 +283,10 @@ do
                         Console.WriteLine("Lista ricaricata!");
                         break;
                 }
-            } while (inserimento != "Back"); //Esce con 'b'
+            } while (inserimento != "Back"); //Esce con "Back"
             break;
     }
-} while (inserimento != "Esci"); //Esce con 'q'
+} while (inserimento != "Esci"); //Esce con "Esci"
 
 public static class Funzioni
 {
