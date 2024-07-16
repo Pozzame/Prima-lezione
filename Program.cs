@@ -183,7 +183,7 @@ internal class Program
             new SelectionPrompt<string>()
                 .Title("-----Gestionale classe-----")
                 .PageSize(7)
-                .MoreChoicesText("[grey](Move up and down to select[/]")
+                .MoreChoicesText("[grey](Move up and down to select)[/]")
                 .AddChoices(new[] {
             "Visualiza partecipanti", "Ordina", "Ricerca", "Edita",
             "Salva lista", "Menù squadre", "Esci",
@@ -221,13 +221,14 @@ internal class Program
                                 if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlla che il nome non sia già presente
                                 break;
                             case "Elimina partecipante": //Elimina partecipante
-                                nom = Funzioni.ReadNome();
-                                if (partecipanti.Contains(nom))
-                                {
-                                    partecipanti.Remove(nom);
-                                    Console.WriteLine($"{nom} è stato rimosso.");
-                                }
-                                else Console.WriteLine($"{nom} non era presente.");
+                                nom = AnsiConsole.Prompt(
+                                    new SelectionPrompt<string>()
+                                        .Title("-----Seleziona partecipante-----")
+                                        .PageSize(10)
+                                        .MoreChoicesText("[grey](Move up and down to select)[/]")
+                                        .AddChoices(partecipanti));
+                                partecipanti.Remove(nom);
+                                Console.WriteLine($"{nom} è stato rimosso.");
                                 break;
                             case "Modifica": //Modifica partecipante
                                 nom = Funzioni.ReadNome();
@@ -256,7 +257,7 @@ internal class Program
                         new SelectionPrompt<string>()
                             .Title("-----Menù squadre------")
                             .PageSize(4)
-                            .MoreChoicesText("[grey](Move up and down to select[/]")
+                            .MoreChoicesText("[grey](Move up and down to select)[/]")
                             .AddChoices(new[] {
                         "Crea squadre", "Salva squadre", "Ricarica partecipanti",
                         "Back",
