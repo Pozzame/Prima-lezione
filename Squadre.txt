@@ -1,15 +1,22 @@
 Squadra 1
-Carlo
-Daniele
-Serghej
+Ginevra
 Matteo
-Ciccio
-Sempronio
+Pierpiero
+Piero
+Caio
+Carlo
+Francesco
+Carmelo
+Maurizio
+Mattia
 
 Squadra 2
-Francesco
-Mattia
+Serghej
+Pino
 Silvano
+Antani
 Allison
-Caio
-Ginevra
+Daniele
+Antonio
+Ciccio
+Sempronio

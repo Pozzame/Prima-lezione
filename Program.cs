@@ -224,7 +224,7 @@ internal class Program
                                 nom = AnsiConsole.Prompt(
                                     new SelectionPrompt<string>()
                                         .Title("-----Seleziona partecipante-----")
-                                        .PageSize(10)
+                                        .PageSize(partecipanti.Count)
                                         .MoreChoicesText("[grey](Move up and down to select)[/]")
                                         .AddChoices(partecipanti));
                                 partecipanti.Remove(nom);
@@ -286,7 +286,7 @@ internal class Program
                                 squadra1 = AnsiConsole.Prompt(
                                     new MultiSelectionPrompt<string>()
                                         .Title("Selezionare squadra 1?")
-                                        .PageSize(10)
+                                        .PageSize(partecipanti.Count)
                                         .AddChoices(partecipanti));
                                 foreach (string item in squadra1) partecipanti.Remove(item);
                                 squadra2 = new List<string>(partecipanti);
@@ -323,21 +323,14 @@ public static class Funzioni
         foreach (string student in partecipanti) lista.AddRow(student); //Crea una tabella con i partecipanti
         AnsiConsole.Write(lista); //Stampa la tabella
     }
-    public static void Lista(List<string> partecipanti, List<string> squadra1, List<string> squadra2)// TODO Gestire se squadra1 è più piccola di squadra2
+    public static void Lista(List<string> partecipanti, List<string> squadra1, List<string> squadra2)
     {
         var table = new Table();
         table.AddColumn("Partecipanti");
         table.AddColumn("Squadra1");
         table.AddColumn("Squadra2");
-        for (int i = 0; i < partecipanti.Count(); i++)
-        {
-            if (squadra2.Count > i)
-                table.AddRow(partecipanti[i], squadra1[i], squadra2[i]);
-            else if (squadra1.Count > i)
-                table.AddRow(partecipanti[i], squadra1[i], "");
-            else
-                table.AddRow(partecipanti[i], "", "");
-        }
+        for (int i = 0; i < partecipanti.Count; i++)
+            table.AddRow(partecipanti[i], squadra1.Count>i ? squadra1[i] : "", squadra2.Count>i ? squadra2[i] : "");
         AnsiConsole.Write(table); //Stampa la tabella
     }
     public static void SalvaSquadre(string path, List<string> squadra1, List<string> squadra2)
