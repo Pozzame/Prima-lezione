@@ -176,7 +176,7 @@ internal class Program
         Random rng = new Random();
         List<string> partecipanti = new List<string>(File.ReadAllLines(@"Partecipanti.txt"));
         Console.Clear();
-        string inserimento = "";
+        string inserimento;
         do
         {
             inserimento = AnsiConsole.Prompt(
@@ -280,7 +280,7 @@ internal class Program
                                 //partecipanti.Clear();
                                 break;
                             case "Salva squadre": //Salva squadre
-                                Funzioni.salvaSquadre("Squadre.txt", squadra1, squadra2);
+                                Funzioni.SalvaSquadre("Squadre.txt", squadra1, squadra2);
                                 break;
                             case "Ricarica partecipanti": //Ricarica Partecipanti
                                 partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
@@ -326,7 +326,7 @@ public static class Funzioni
         }
         AnsiConsole.Write(table); //Stampa la tabella
     }
-    public static void salvaSquadre(string path, List<string> squadra1, List<string> squadra2)
+    public static void SalvaSquadre(string path, List<string> squadra1, List<string> squadra2)
     {
         if (File.Exists(path))
             File.Delete(path);
