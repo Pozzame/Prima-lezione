@@ -169,124 +169,130 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 */
 
 using Spectre.Console;
-Random rng = new Random();
-List<string> partecipanti = new List<string>(File.ReadAllLines(@"Partecipanti.txt"));
-Console.Clear();
-string inserimento = "";
-do
+internal class Program
 {
-    inserimento = AnsiConsole.Prompt(
-    new SelectionPrompt<string>()
-        .Title("-----Gestionale classe-----")
-        .PageSize(7)
-        .MoreChoicesText("[grey](Move up and down to select[/]")
-        .AddChoices(new[] {
+    private static void Main(string[] args)
+    {
+        Random rng = new Random();
+        List<string> partecipanti = new List<string>(File.ReadAllLines(@"Partecipanti.txt"));
+        Console.Clear();
+        string inserimento = "";
+        do
+        {
+            inserimento = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("-----Gestionale classe-----")
+                .PageSize(7)
+                .MoreChoicesText("[grey](Move up and down to select[/]")
+                .AddChoices(new[] {
             "Visualiza partecipanti", "Ordina", "Ricerca", "Edita",
             "Salva lista", "Menù squadre", "Esci",
-        }));
-    switch (inserimento)
-    {
-        case "Visualiza partecipanti": //Lista partecipanti
-            Console.Clear();
-            Funzioni.Lista(partecipanti);
-            break;
-        case "Ordina": //Ordinamento
-            partecipanti.Sort();
-            Console.WriteLine("d - Discendente?");
-            if (Console.ReadKey(true).KeyChar == 'd') partecipanti.Reverse();
-            break;
-        case "Ricerca": //Controlla se già presente
-            if (partecipanti.Contains(Funzioni.ReadNome())) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
-            break;
-        case "Edita": //Edita
-            do
+                }));
+            switch (inserimento)
             {
-                inserimento = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("-----Menù edit-----")
-                    .PageSize(4)
-                    .MoreChoicesText("[grey](Move up and down to select[/]")
-                    .AddChoices(new[] {
+                case "Visualiza partecipanti": //Lista partecipanti
+                    Console.Clear();
+                    Funzioni.Lista(partecipanti);
+                    break;
+                case "Ordina": //Ordinamento
+                    partecipanti.Sort();
+                    Console.WriteLine("d - Discendente?");
+                    if (Console.ReadKey(true).KeyChar == 'd') partecipanti.Reverse();
+                    break;
+                case "Ricerca": //Controlla se già presente
+                    if (partecipanti.Contains(Funzioni.ReadNome())) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
+                    break;
+                case "Edita": //Edita
+                    do
+                    {
+                        inserimento = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("-----Menù edit-----")
+                            .PageSize(4)
+                            .MoreChoicesText("[grey](Move up and down to select[/]")
+                            .AddChoices(new[] {
                         "Aggiunta nome", "Elimina partecipante", "Modifica",
                         "Back",
-                    }));
-                switch (inserimento)
-                {
-                    case "Aggiunta nome": //Aggiunge nome
-                        string nom = Funzioni.ReadNome();
-                        if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlla che il nome non sia già presente
-                        break;
-                    case "Elimina partecipante": //Elimina partecipante
-                        nom = Funzioni.ReadNome();
-                        if (partecipanti.Contains(nom))
+                            }));
+                        switch (inserimento)
                         {
-                            partecipanti.Remove(nom);
-                            Console.WriteLine($"{nom} è stato rimosso.");
+                            case "Aggiunta nome": //Aggiunge nome
+                                string nom = Funzioni.ReadNome();
+                                if (partecipanti.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else partecipanti.Add(nom); //Controlla che il nome non sia già presente
+                                break;
+                            case "Elimina partecipante": //Elimina partecipante
+                                nom = Funzioni.ReadNome();
+                                if (partecipanti.Contains(nom))
+                                {
+                                    partecipanti.Remove(nom);
+                                    Console.WriteLine($"{nom} è stato rimosso.");
+                                }
+                                else Console.WriteLine($"{nom} non era presente.");
+                                break;
+                            case "Modifica": //Modifica partecipante
+                                nom = Funzioni.ReadNome();
+                                if (partecipanti.Contains(nom)) //Verifica che sia presente
+                                {
+                                    string nuovoNome = Funzioni.ReadNome();
+                                    partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
+                                    Console.WriteLine($"{nom} è stato modificato in {nuovoNome}.");
+                                }
+                                else Console.WriteLine($"{nom} non è nella lista.");
+                                break;
                         }
-                        else Console.WriteLine($"{nom} non era presente.");
-                        break;
-                    case "Modifica": //Modifica partecipante
-                        nom = Funzioni.ReadNome();
-                        if (partecipanti.Contains(nom)) //Verifica che sia presente
-                        {
-                            string nuovoNome = Funzioni.ReadNome();
-                            partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
-                            Console.WriteLine($"{nom} è stato modificato in {nuovoNome}.");
-                        }
-                        else Console.WriteLine($"{nom} non è nella lista.");
-                        break;
-                }
-            } while (inserimento != "Back"); //Esce con 'b'
-            break;
-        case "Salva lista": //Salva lista
-            File.Delete("Partecipanti.txt");
-            File.AppendAllLines("Partecipanti.txt", partecipanti);
-            Console.WriteLine("Nuova lista salvata!");
-            break;
-        case "Menù squadre": //Menù squadre
-            List<string> squadra1 = new List<string>();
-            List<string> squadra2 = new List<string>();
-            do
-            {
-                inserimento = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("-----Menù squadre------")
-                    .PageSize(4)
-                    .MoreChoicesText("[grey](Move up and down to select[/]")
-                    .AddChoices(new[] {
+                    } while (inserimento != "Back"); //Esce con 'b'
+                    break;
+                case "Salva lista": //Salva lista
+                    File.Delete("Partecipanti.txt");
+                    File.AppendAllLines("Partecipanti.txt", partecipanti);
+                    Console.WriteLine("Nuova lista salvata!");
+                    break;
+                case "Menù squadre": //Menù squadre
+                    List<string> squadra1 = new List<string>();
+                    List<string> squadra2 = new List<string>();
+                    do
+                    {
+                        inserimento = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("-----Menù squadre------")
+                            .PageSize(4)
+                            .MoreChoicesText("[grey](Move up and down to select[/]")
+                            .AddChoices(new[] {
                         "Crea squadre", "Salva squadre", "Ricarica partecipanti",
                         "Back",
-                    }));
-                switch (inserimento)
-                {
-                    case "Crea squadre": //Crea squadre
-                        Console.Clear();
-                        //Funzioni.Lista(partecipanti);
-                        squadra1.Clear();
-                        squadra2.Clear();
-                        List<string> temp = new List<string>(partecipanti);
-                        while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
+                            }));
+                        switch (inserimento)
                         {
-                            int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
-                            if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
-                            partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
+                            case "Crea squadre": //Crea squadre
+                                Console.Clear();
+                                //Funzioni.Lista(partecipanti);
+                                squadra1.Clear();
+                                squadra2.Clear();
+                                List<string> temp = new List<string>(partecipanti);
+                                while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
+                                {
+                                    int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
+                                    if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
+                                    partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
+                                }
+                                //partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
+                                Funzioni.Lista(temp, squadra1, squadra2);
+                                //partecipanti.Clear();
+                                break;
+                            case "Salva squadre": //Salva squadre
+                                Funzioni.salvaSquadre("Squadre.txt", squadra1, squadra2);
+                                break;
+                            case "Ricarica partecipanti": //Ricarica Partecipanti
+                                partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
+                                Console.WriteLine("Lista ricaricata!");
+                                break;
                         }
-                        //partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
-                        Funzioni.Lista(temp, squadra1, squadra2);
-                        //partecipanti.Clear();
-                        break;
-                    case "Salva squadre": //Salva squadre
-                        Funzioni.salvaSquadre("Squadre.txt", squadra1, squadra2);
-                        break;
-                    case "Ricarica partecipanti": //Ricarica Partecipanti
-                        partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
-                        Console.WriteLine("Lista ricaricata!");
-                        break;
-                }
-            } while (inserimento != "Back"); //Esce con "Back"
-            break;
+                    } while (inserimento != "Back"); //Esce con "Back"
+                    break;
+            }
+        } while (inserimento != "Esci"); //Esce con "Esci"
     }
-} while (inserimento != "Esci"); //Esce con "Esci"
+}
 
 public static class Funzioni
 {
