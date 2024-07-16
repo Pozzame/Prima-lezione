@@ -256,29 +256,42 @@ internal class Program
                         inserimento = AnsiConsole.Prompt(
                         new SelectionPrompt<string>()
                             .Title("-----Menù squadre------")
-                            .PageSize(4)
+                            .PageSize(5)
                             .MoreChoicesText("[grey](Move up and down to select)[/]")
                             .AddChoices(new[] {
-                        "Crea squadre", "Salva squadre", "Ricarica partecipanti",
+                        "Crea squadre", "Squadre manuali", "Salva squadre", "Ricarica partecipanti",
                         "Back",
                             }));
+                        List<string> temp;
                         switch (inserimento)
                         {
                             case "Crea squadre": //Crea squadre
+                                temp = new List<string>(partecipanti);
                                 Console.Clear();
-                                //Funzioni.Lista(partecipanti);
                                 squadra1.Clear();
                                 squadra2.Clear();
-                                List<string> temp = new List<string>(partecipanti);
                                 while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
                                 {
                                     int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
                                     if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
                                     partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
                                 }
-                                //partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
                                 Funzioni.Lista(temp, squadra1, squadra2);
-                                //partecipanti.Clear();
+                                break;
+                            case "Squadre manuali":
+                                temp = new List<string>(partecipanti);
+                                Console.Clear();
+                                squadra1.Clear();
+                                squadra2.Clear();
+                                squadra1 = AnsiConsole.Prompt(
+                                    new MultiSelectionPrompt<string>()
+                                        .Title("Selezionare squadra 1?")
+                                        .PageSize(10)
+                                        .AddChoices(partecipanti));
+                                foreach (string item in squadra1) partecipanti.Remove(item);
+                                squadra2 = new List<string>(partecipanti);
+                                partecipanti.Clear();
+                                Funzioni.Lista(temp, squadra1, squadra2);
                                 break;
                             case "Salva squadre": //Salva squadre
                                 Funzioni.SalvaSquadre("Squadre.txt", squadra1, squadra2);
@@ -310,7 +323,7 @@ public static class Funzioni
         foreach (string student in partecipanti) lista.AddRow(student); //Crea una tabella con i partecipanti
         AnsiConsole.Write(lista); //Stampa la tabella
     }
-    public static void Lista(List<string> partecipanti, List<string> squadra1, List<string> squadra2)
+    public static void Lista(List<string> partecipanti, List<string> squadra1, List<string> squadra2)// TODO Gestire se squadra1 è più piccola di squadra2
     {
         var table = new Table();
         table.AddColumn("Partecipanti");
