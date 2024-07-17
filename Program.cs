@@ -281,8 +281,6 @@ internal class Program
                             case "Squadre manuali":
                                 temp = new List<string>(partecipanti);
                                 Console.Clear();
-                                squadra1.Clear();
-                                squadra2.Clear();
                                 squadra1 = AnsiConsole.Prompt(
                                     new MultiSelectionPrompt<string>()
                                         .Title("Selezionare squadra 1?")
