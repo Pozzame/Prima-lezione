@@ -167,7 +167,7 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     foreach (string student in sorteggiati) Console.WriteLine(student); //Stampa lista sorteggiati
     Console.WriteLine();
 */
-
+//TODO: Lettura da csv e storage in un json delal rubrica. Calendario condiviso con persistenza.
 using Spectre.Console;
 internal class Program
 {
