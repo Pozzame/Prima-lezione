@@ -2,9 +2,13 @@ using Spectre.Console;
 class View
 {
     private Model db;
+    Random rng = new Random();
     public View(Model db)
     {
         this.db = db;
+    }
+    public void Menu()
+    {
         Console.Clear();
         string inserimento;
         do
@@ -22,12 +26,12 @@ class View
             {
                 case "Visualiza partecipanti": //Lista partecipanti
                     Console.Clear();
-                    Funzioni.Lista(db.);
+                    Lista(db.GetPartecipanti());
                     break;
                 case "Ordina": //Ordinamento
-                    partecipanti.Sort();
+                    db.Sort();
                     Console.WriteLine("d - Discendente?");
-                    if (Console.ReadKey(true).KeyChar == 'd') partecipanti.Reverse();
+                    if (Console.ReadKey(true).KeyChar == 'd') db.Reverse();
                     break;
                 case "Ricerca": //Controlla se già presente
                     if (partecipanti.Contains(Funzioni.ReadNome())) Console.WriteLine("Presente"); else Console.WriteLine("Assente");
@@ -133,5 +137,14 @@ class View
                     break;
             }
         } while (inserimento != "Esci"); //Esce con "Esci"
+    }
+
+
+    public void Lista(List<Partecipante> partecipanti)
+    {
+        var lista = new Table();
+        lista.AddColumn("Partecipanti");
+        foreach (Partecipante partecipante in partecipanti) lista.AddRow(partecipante.Nome); //Crea una tabella con i partecipanti
+        AnsiConsole.Write(lista); //Stampa la tabella
     }
 }
