@@ -169,10 +169,16 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
 */
 //TODO: Lettura da csv e storage in un json della rubrica. Calendario (Calendar d spectre e Date d c#) condiviso con persistenza.
 using Spectre.Console;
-internal class Program
+class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
+        Model db = new Model();
+        View view= new View(db);
+        var controller = new Controller(db, view);
+
+
+        
         Random rng = new Random();
         List<string> partecipanti = new List<string>(File.ReadAllLines(@"Partecipanti.txt"));
         Console.Clear();
