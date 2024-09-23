@@ -49,8 +49,8 @@ class View
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("-----Seleziona partecipante-----")
-                .PageSize(partecipanti.Count)
+                .PageSize(db.Get().Count)
                 .MoreChoicesText("[grey](Move up and down to select)[/]")
-                .AddChoices(partecipanti));
+                .AddChoices(db.GetStrings()));
     }
 }

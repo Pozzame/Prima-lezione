@@ -39,14 +39,11 @@ class Controller
                                 if (db.Contains(nom)) Console.WriteLine($"{nom} è già presente."); else db.Add(nom); //Controlla che il nome non sia già presente
                                 break;
                             case "Elimina partecipante": //Elimina partecipante
-
-                                nom = view.Select();
-                                db.Remove(nom);
-                                Console.WriteLine($"{nom} è stato rimosso.");
+                                db.Remove(view.Select());
                                 break;
                             case "Modifica": //Modifica partecipante
                                 nom = Funzioni.ReadNome();
-                                if (partecipanti.Contains(nom)) //Verifica che sia presente
+                                if (db.Contains(nom)) //Verifica che sia presente
                                 {
                                     string nuovoNome = Funzioni.ReadNome();
                                     partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo

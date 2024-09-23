@@ -22,14 +22,14 @@ class Model{
     }
     public List<Partecipante> Get()
     {
-        var command = new SQLiteCommand("SELECT nome FROM Partecipanti", connection); // Creazione di un comando per leggere gli utenti
-        var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
-        var users = new List<Partecipante>(); // Creazione di una lista per memorizzare i nomi degli utenti
+        var command = new SQLiteCommand("SELECT nome FROM Partecipanti", connection);
+        var reader = command.ExecuteReader();
+        var users = new List<Partecipante>();
         while (reader.Read())
         {
-            users.Add(new Partecipante(reader.GetString(0))); // Aggiunta dell'utente alla lista
+            users.Add(new Partecipante(reader.GetString(0)));
         }
-        return users;   // Restituzione della lista
+        return users;
     }
     public List<Partecipante> Sort(char ordinamento)
     {
@@ -58,8 +58,21 @@ class Model{
         command.ExecuteNonQuery();  // Esecuzione del comando
     }
 
-    internal void Remove(string nom)
+    internal void Remove(string name)
     {
-        throw new NotImplementedException();
+        var command = new SQLiteCommand($"DELETE FROM Partecipanti WHERE name = '{name}'", connection);
+        command.ExecuteNonQuery(); 
+        Console.WriteLine($"{name} è stato rimosso.");
+    }
+
+    internal List<string> GetStrings()
+    {
+        List<string> list = new List<string>();
+        List<Partecipante> partecipanti = Get();
+        foreach (Partecipante partecipante in partecipanti)
+        {
+            list.Add(partecipante.Nome);
+        }
+        return list;
     }
 }
