@@ -168,7 +168,7 @@ while(partecipanti.Count > 0) //Cicla finché ci sono elementi nella lista
     Console.WriteLine();
 */
 //TODO: Lettura da csv e storage in un json della rubrica. Calendario (Calendar d spectre e Date d c#) condiviso con persistenza.
-using Spectre.Console;
+
 class Program
 {
     private static void Main()
@@ -177,7 +177,7 @@ class Program
         View view= new View(db);
         var controller = new Controller(db, view);
 
-        view.Menu();
+        controller.Menu();
     }       
 }
 

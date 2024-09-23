@@ -20,15 +20,46 @@ class Model{
             }
         }
     }
-    public List<Partecipante> GetPartecipanti()
+    public List<Partecipante> Get()
     {
-        var command = new SQLiteCommand("SELECT * FROM Partecipanti", connection); // Creazione di un comando per leggere gli utenti
+        var command = new SQLiteCommand("SELECT nome FROM Partecipanti", connection); // Creazione di un comando per leggere gli utenti
         var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
         var users = new List<Partecipante>(); // Creazione di una lista per memorizzare i nomi degli utenti
         while (reader.Read())
         {
-            users.Add(new Partecipante(reader.GetString(1))); // Aggiunta dell'utente alla lista
+            users.Add(new Partecipante(reader.GetString(0))); // Aggiunta dell'utente alla lista
         }
         return users;   // Restituzione della lista
+    }
+    public List<Partecipante> Sort(char ordinamento)
+    {
+        string ord = "";
+        if (ordinamento == 'd')
+            ord = "DESC";
+        var command = new SQLiteCommand($"SELECT nome FROM Partecipanti ORDER BY nome {ord}", connection); // Creazione di un comando per leggere gli utenti
+        var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
+        var users = new List<Partecipante>(); // Creazione di una lista per memorizzare i nomi degli utenti
+        while (reader.Read())
+        {
+            users.Add(new Partecipante(reader.GetString(0))); // Aggiunta dell'utente alla lista
+        }
+        return users;   // Restituzione della lista
+    }
+    public bool Contains(string name)
+    {
+        var command = new SQLiteCommand($"SELECT nome FROM Partecipanti WHERE nome = '{name}'", connection); // Creazione di un comando per leggere gli utenti
+        var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
+        return reader.HasRows;
+    }
+
+    internal void Add(string name)
+    {
+        var command = new SQLiteCommand($"INSERT INTO Partecipanti (name) VALUES ('{name}')", connection);
+        command.ExecuteNonQuery();  // Esecuzione del comando
+    }
+
+    internal void Remove(string nom)
+    {
+        throw new NotImplementedException();
     }
 }
