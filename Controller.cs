@@ -2,6 +2,7 @@ class Controller
 {
     private Model db;
     private View view;
+    Random rng = new Random();
 
     public Controller(Model db, View view){
         this.db = db;
@@ -26,7 +27,7 @@ class Controller
                     view.Lista(db.Sort(Console.ReadKey(true).KeyChar));
                     break;
                 case "Ricerca": //Controlla se già presente
-                    view.Presente(db.Contains(Funzioni.ReadNome()));
+                    view.Presente(db.Contains(ReadNome()));
                     break;
                 case "Edita": //Edita
                     do
@@ -42,11 +43,11 @@ class Controller
                                 db.Remove(view.Select());
                                 break;
                             case "Modifica": //Modifica partecipante
-                                nom = Funzioni.ReadNome();
+                                nom = ReadNome();
                                 if (db.Contains(nom)) //Verifica che sia presente
                                 {
-                                    string nuovoNome = Funzioni.ReadNome();
-                                    partecipanti[partecipanti.IndexOf(nom)] = nuovoNome; //Sostituisce il nome all'indice del nome vecchio con quello nuovo
+                                    string nuovoNome = ReadNome();
+                                    db.Edit(nom, nuovoNome); //Sostituisce il nome all'indice del nome vecchio con quello nuovo
                                     Console.WriteLine($"{nom} è stato modificato in {nuovoNome}.");
                                 }
                                 else Console.WriteLine($"{nom} non è nella lista.");
@@ -56,58 +57,45 @@ class Controller
                     break;
                 case "Salva lista": //Salva lista
                     File.Delete("Partecipanti.txt");
-                    File.AppendAllLines("Partecipanti.txt", partecipanti);
+                    File.AppendAllLines("Partecipanti.txt", db.GetStrings());
                     Console.WriteLine("Nuova lista salvata!");
                     break;
                 case "Menù squadre": //Menù squadre
-                    List<string> squadra1 = new List<string>();
-                    List<string> squadra2 = new List<string>();
+                    List<Partecipante> squadra1 = new List<Partecipante>();
+                    List<Partecipante> squadra2 = new List<Partecipante>();
                     do
                     {
-                        inserimento = AnsiConsole.Prompt(
-                        new SelectionPrompt<string>()
-                            .Title("-----Menù squadre------")
-                            .PageSize(5)
-                            .MoreChoicesText("[grey](Move up and down to select)[/]")
-                            .AddChoices(new[] {
-                        "Crea squadre", "Squadre manuali", "Salva squadre", "Ricarica partecipanti",
-                        "Back",
-                            }));
-                        List<string> temp;
+                        inserimento = view.SquadreMenu();
+                        List<Partecipante> temp;
                         switch (inserimento)
                         {
                             case "Crea squadre": //Crea squadre
-                                temp = new List<string>(partecipanti);
+                                temp = new List<Partecipante>(db.Get());
                                 Console.Clear();
                                 squadra1.Clear();
                                 squadra2.Clear();
-                                while (partecipanti.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
+                                while (temp.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
                                 {
-                                    int scelto = rng.Next(partecipanti.Count); //Sceglie un partecipante a caso fra i rimanenti
-                                    if (squadra1.Count > squadra2.Count) squadra2.Add(partecipanti[scelto]); else squadra1.Add(partecipanti[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
-                                    partecipanti.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
+                                    int scelto = rng.Next(temp.Count); //Sceglie un partecipante a caso fra i rimanenti
+                                    if (squadra1.Count > squadra2.Count) squadra2.Add(temp[scelto]); else squadra1.Add(temp[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
+                                    temp.RemoveAt(scelto); //Lo rimuove dalla lista iniziale
                                 }
-                                Funzioni.Lista(temp, squadra1, squadra2);
+                                view.Lista(db.Get(), squadra1, squadra2);
                                 break;
                             case "Squadre manuali":
-                                temp = new List<string>(partecipanti);
+                                temp = new List<Partecipante>(db.Get());
                                 Console.Clear();
-                                squadra1 = AnsiConsole.Prompt(
-                                    new MultiSelectionPrompt<string>()
-                                        .Title("Selezionare squadra 1?")
-                                        .PageSize(partecipanti.Count)
-                                        .AddChoices(partecipanti));
-                                foreach (string item in squadra1) partecipanti.Remove(item);
-                                squadra2 = new List<string>(partecipanti);
-                                partecipanti.Clear();
-                                Funzioni.Lista(temp, squadra1, squadra2);
-                                break;
-                            case "Salva squadre": //Salva squadre
-                                Funzioni.SalvaSquadre("Squadre.txt", squadra1, squadra2);
-                                break;
-                            case "Ricarica partecipanti": //Ricarica Partecipanti
-                                partecipanti = new List<string>(File.ReadAllLines("Partecipanti.txt"));
-                                Console.WriteLine("Lista ricaricata!");
+                                squadra1.Clear();
+                                squadra2.Clear();
+                                List<string> squadra1S = view.SelSquadra();
+                                foreach (string item in squadra1S) 
+                                {
+                                    squadra1.Add(new Partecipante(item));
+                                    RemovePartecipante(temp, item);
+                                }
+                                //foreach (Partecipante item in squadra1) temp.Remove(item);
+                                squadra2 = new List<Partecipante>(temp);
+                                view.Lista(db.Get(), squadra1, squadra2);
                                 break;
                         }
                     } while (inserimento != "Back"); //Esce con "Back"
@@ -121,5 +109,12 @@ class Controller
         Console.WriteLine("Inserire nome");
         string nome = Console.ReadLine()!.Trim(); //Rimuove spazi prima e dopo
         return nome[0].ToString().ToUpper() + nome.Substring(1); //Mette maiuscola solo la prima lettera
+    }
+    public void RemovePartecipante(List<Partecipante> partecipanti, string nome)
+    {
+        for (int i = 0; i < partecipanti.Count; i++)
+            if (partecipanti[i].Nome == nome)
+                partecipanti.RemoveAt(i);
+
     }
 }

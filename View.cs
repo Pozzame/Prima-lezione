@@ -2,7 +2,6 @@ using Spectre.Console;
 class View
 {
     private Model db;
-    Random rng = new Random();
     public View(Model db)
     {
         this.db = db;
@@ -25,6 +24,16 @@ class View
         lista.AddColumn("Partecipanti");
         foreach (Partecipante partecipante in partecipanti) lista.AddRow(partecipante.Nome); //Crea una tabella con i partecipanti
         AnsiConsole.Write(lista); //Stampa la tabella
+    }
+    public void Lista(List<Partecipante> partecipanti, List<Partecipante> squadra1, List<Partecipante> squadra2)
+    {
+        var table = new Table();
+        table.AddColumn("Partecipanti");
+        table.AddColumn("Squadra1");
+        table.AddColumn("Squadra2");
+        for (int i = 0; i < partecipanti.Count; i++)
+            table.AddRow(partecipanti[i].Nome, squadra1.Count>i ? squadra1[i].Nome : "", squadra2.Count>i ? squadra2[i].Nome : "");
+        AnsiConsole.Write(table); //Stampa la tabella
     }
     public void Presente(bool presente)
     {
@@ -51,6 +60,27 @@ class View
                 .Title("-----Seleziona partecipante-----")
                 .PageSize(db.Get().Count)
                 .MoreChoicesText("[grey](Move up and down to select)[/]")
+                .AddChoices(db.GetStrings()));
+    }
+
+    internal string SquadreMenu()
+    {
+        return AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("-----Menù squadre------")
+                .PageSize(5)
+                .MoreChoicesText("[grey](Move up and down to select)[/]")
+                .AddChoices(new[] {
+                    "Crea squadre", "Squadre manuali", "Back",
+                    }));
+    }
+
+    internal List<string> SelSquadra()
+    {
+        return AnsiConsole.Prompt(
+            new MultiSelectionPrompt<string>()
+                .Title("Selezionare squadra 1?")
+                .PageSize(db.Get().Count)
                 .AddChoices(db.GetStrings()));
     }
 }
