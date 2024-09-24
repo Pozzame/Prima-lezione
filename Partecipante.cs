@@ -5,4 +5,8 @@ class Partecipante{
     }
 
     public string Nome { get; set; }
+    public virtual int VisScore()
+    {
+        return 0;
+    }
 }

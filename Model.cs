@@ -49,6 +49,17 @@ class Model{
         var reader = command.ExecuteReader();
         return new Partecipante(reader.GetString(0));
     }
+    public List<Professionista> GetScore()
+    {
+        var command = new SQLiteCommand("SELECT Partecipanti.name, score FROM Partecipanti JOIN Professionisti;", connection);
+        var reader = command.ExecuteReader();
+        var users = new List<Professionista>();
+        while (reader.Read())
+        {
+            users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
+        }
+        return users;
+    }
     public List<Partecipante> Sort(char ordinamento)
     {
         string ord = "";

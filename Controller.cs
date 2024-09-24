@@ -22,6 +22,10 @@ class Controller
                     Console.Clear();
                     view.Lista(db.Get());
                     break;
+                case "Visualizza score":
+                    Console.Clear();
+                    view.Lista(db.GetScore());
+                    break;
                 case "Ordina": //Ordinamento
                     Console.WriteLine("d - Discendente?");
                     view.Lista(db.Sort(Console.ReadKey(true).KeyChar));
