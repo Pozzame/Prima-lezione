@@ -18,13 +18,6 @@ class View
                 "Salva lista", "Menù squadre", "Esci",
             }));
     }
-    // public void Lista(List<Partecipante> partecipanti)
-    // {
-    //     var lista = new Table();
-    //     lista.AddColumn("Partecipanti");
-    //     foreach (Partecipante partecipante in partecipanti) lista.AddRow(partecipante.Nome); //Crea una tabella con i partecipanti
-    //     AnsiConsole.Write(lista); //Stampa la tabella
-    // }
     public void Lista(List<Partecipante> partecipanti, List<Partecipante> squadra1, List<Partecipante> squadra2)
     {
         var table = new Table();
@@ -54,10 +47,10 @@ class View
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("-----Menù edit-----")
-                .PageSize(4)
+                .PageSize(6)
                 .MoreChoicesText("[grey](Move up and down to select[/]")
                 .AddChoices(new[] {
-                    "Aggiunta nome", "Elimina partecipante", "Modifica",
+                    "Aggiunta nome", "Elimina partecipante", "Modifica nome", "Rendi professionista", "Modifica score Pro",
                     "Back",
                     }));
     }
@@ -70,6 +63,15 @@ class View
                 .PageSize(db.Get().Count)
                 .MoreChoicesText("[grey](Move up and down to select)[/]")
                 .AddChoices(db.GetStrings()));
+    }
+    internal string Select(List<Professionista> pro)
+    {
+        return AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("-----Seleziona partecipante-----")
+                .PageSize(pro.Count)
+                .MoreChoicesText("[grey](Move up and down to select)[/]")
+                .AddChoices(pro.ToList()));
     }
 
     internal string SquadreMenu()

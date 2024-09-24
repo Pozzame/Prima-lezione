@@ -1,3 +1,5 @@
+using System.Runtime.Intrinsics.Arm;
+
 class Controller
 {
     private Model db;
@@ -22,10 +24,6 @@ class Controller
                     Console.Clear();
                     view.Lista(db.Get());
                     break;
-                // case "Visualizza score":
-                //     Console.Clear();
-                //     view.Lista(db.GetScore());
-                //     break;
                 case "Ordina": //Ordinamento
                     Console.WriteLine("d - Discendente?");
                     view.Lista(db.Sort(Console.ReadKey(true).KeyChar));
@@ -46,7 +44,7 @@ class Controller
                             case "Elimina partecipante": //Elimina partecipante
                                 db.Remove(view.Select());
                                 break;
-                            case "Modifica": //Modifica partecipante
+                            case "Modifica nome": //Modifica partecipante
                                 nom = ReadNome();
                                 if (db.Contains(nom)) //Verifica che sia presente
                                 {
@@ -55,6 +53,12 @@ class Controller
                                     Console.WriteLine($"{nom} è stato modificato in {nuovoNome}.");
                                 }
                                 else Console.WriteLine($"{nom} non è nella lista.");
+                                break;
+                            case "Rendi professionista":
+                                db.RendiPro(view.Select());
+                                break;
+                            case "Modifica score Pro":
+                                db.EditScore(view.Select(db.GetPro()));
                                 break;
                         }
                     } while (inserimento != "Back"); //Esce con 'b'

@@ -3,7 +3,7 @@ using System.Data.SQLite;
 
 class Model{
     private SQLiteConnection connection;
-    private string path = @"C:\Users\Pozzame\Documents\Corso_2024\Prima lezione\"; //C:\Users\pozza\Documents\VisualStudioCode\Prima-lezione
+    private string path = @"C:\Users\pozza\Documents\VisualStudioCode\Prima-lezione\"; //C:\Users\Pozzame\Documents\Corso_2024\Prima lezione\
 
     public Model()
     {
@@ -51,7 +51,7 @@ class Model{
     }
     public List<Partecipante> Get()
     {
-        var command = new SQLiteCommand(@"SELECT Partecipanti.name, score 
+        var command = new SQLiteCommand(@"SELECT Partecipanti.name name, score 
                                             FROM Partecipanti 
                                             LEFT JOIN Professionisti 
                                             ON Partecipanti.name == Professionisti.name;", connection);
@@ -66,19 +66,28 @@ class Model{
         }
         return users;
     }
+    // public List<Partecipante> Sort(char ordinamento)
+    // {
+    //     string ord = "";
+    //     if (ordinamento == 'd')
+    //         ord = "DESC";
+    //     SQLiteCommand command = new SQLiteCommand($"SELECT name FROM Partecipanti ORDER BY name {ord};", connection); // Creazione di un comando per leggere gli utenti
+    //     var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
+    //     var users = new List<Partecipante>(); // Creazione di una lista per memorizzare i nomi degli utenti
+    //     while (reader.Read())
+    //     {
+    //         users.Add(new Partecipante(reader.GetString(0))); // Aggiunta dell'utente alla lista
+    //     }
+    //     return users;   // Restituzione della lista
+    // }   
     public List<Partecipante> Sort(char ordinamento)
     {
-        string ord = "";
+        List<Partecipante> lista = Get();
         if (ordinamento == 'd')
-            ord = "DESC";
-        SQLiteCommand command = new SQLiteCommand($"SELECT name FROM Partecipanti ORDER BY name {ord};", connection); // Creazione di un comando per leggere gli utenti
-        var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
-        var users = new List<Partecipante>(); // Creazione di una lista per memorizzare i nomi degli utenti
-        while (reader.Read())
-        {
-            users.Add(new Partecipante(reader.GetString(0))); // Aggiunta dell'utente alla lista
-        }
-        return users;   // Restituzione della lista
+            lista.Reverse();
+        else
+            lista.Sort();
+        return lista;
     }
     public bool Contains(string name)
     {
@@ -115,15 +124,36 @@ class Model{
         command.ExecuteNonQuery();
     }
 
-    internal List<Partecipante> GetPro()
+    internal List<Professionista> GetPro()
     {
-        var command = new SQLiteCommand("SELECT Partecipanti.name FROM Partecipanti JOIN Professionisti ON Partecipanti.name == Professionisti.name;", connection);
+        var command = new SQLiteCommand("SELECT Partecipanti.name, score FROM Partecipanti JOIN Professionisti ON Partecipanti.name == Professionisti.name;", connection);
         var reader = command.ExecuteReader();
-        var users = new List<Partecipante>();
+        var users = new List<Professionista>();
         while (reader.Read())
         {
-            users.Add(new Partecipante(reader.GetString(0)));
+            if (!reader.IsDBNull(1))
+                users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
+            else
+                users.Add(new Professionista(reader.GetString(0), -1));
         }
         return users;
+    }
+
+    internal void RendiPro(string name)
+    {
+        SQLiteCommand command = new SQLiteCommand($"INSERT INTO Professionisti (name) VALUES ('{name}');", connection);
+        try{
+            command.ExecuteNonQuery();
+        }catch (SQLiteException){
+            Console.WriteLine("Partecipante già Professionista.");
+        }
+    }
+
+    internal void EditScore(string name)
+    {
+        Console.WriteLine("Insert new score:");
+        int newScore = Convert.ToInt32(Console.ReadLine());
+        SQLiteCommand command = new SQLiteCommand($"UPDATE Professionisti SET score = {newScore} WHERE name = '{name}';", connection);
+        command.ExecuteNonQuery();
     }
 }
