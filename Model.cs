@@ -51,15 +51,18 @@ class Model{
     }
     public List<Partecipante> Get()
     {
-        var command = new SQLiteCommand("SELECT Partecipanti.name, score FROM Partecipanti LEFT JOIN Professionisti ON Partecipanti.name == Professionisti.name;", connection);
+        var command = new SQLiteCommand(@"SELECT Partecipanti.name, score 
+                                            FROM Partecipanti 
+                                            LEFT JOIN Professionisti 
+                                            ON Partecipanti.name == Professionisti.name;", connection);
         var reader = command.ExecuteReader();
         var users = new List<Partecipante>();
         while (reader.Read())
         {
-        //    if (reader.GetInt32(1) != null)
-                users.Add(new Professionista(reader.GetString(0), Convert.ToInt32(reader.GetString(1))));
-        //    else
-        //        users.Add(new Partecipante(reader.GetString(0)));
+            if (!reader.IsDBNull(1))
+                users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
+            else
+                users.Add(new Partecipante(reader.GetString(0)));
         }
         return users;
     }
