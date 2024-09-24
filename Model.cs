@@ -32,31 +32,34 @@ class Model{
             connection.Open(); // Apertura della connessione
         }
     }
-    public List<Partecipante> Get()
-    {
-        var command = new SQLiteCommand("SELECT name FROM Partecipanti;", connection);
-        var reader = command.ExecuteReader();
-        var users = new List<Partecipante>();
-        while (reader.Read())
-        {
-            users.Add(new Partecipante(reader.GetString(0)));
-        }
-        return users;
-    }
+    // public List<Partecipante> Get()
+    // {
+    //     var command = new SQLiteCommand("SELECT name FROM Partecipanti;", connection);
+    //     var reader = command.ExecuteReader();
+    //     var users = new List<Partecipante>();
+    //     while (reader.Read())
+    //     {
+    //         users.Add(new Partecipante(reader.GetString(0)));
+    //     }
+    //     return users;
+    // }
     public Partecipante Get(int id)
     {
         SQLiteCommand command = new SQLiteCommand($"SELECT name FROM Partecipanti WHERE ID = '{id}';", connection);
         var reader = command.ExecuteReader();
         return new Partecipante(reader.GetString(0));
     }
-    public List<Professionista> GetScore()
+    public List<Partecipante> Get()
     {
-        var command = new SQLiteCommand("SELECT Partecipanti.name, score FROM Partecipanti JOIN Professionisti;", connection);
+        var command = new SQLiteCommand("SELECT Partecipanti.name, score FROM Partecipanti LEFT JOIN Professionisti ON Partecipanti.name == Professionisti.name;", connection);
         var reader = command.ExecuteReader();
-        var users = new List<Professionista>();
+        var users = new List<Partecipante>();
         while (reader.Read())
         {
-            users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
+        //    if (reader.GetInt32(1) != null)
+                users.Add(new Professionista(reader.GetString(0), Convert.ToInt32(reader.GetString(1))));
+        //    else
+        //        users.Add(new Partecipante(reader.GetString(0)));
         }
         return users;
     }

@@ -18,13 +18,13 @@ class View
                 "Salva lista", "Menù squadre", "Esci",
             }));
     }
-    public void Lista(List<Partecipante> partecipanti)
-    {
-        var lista = new Table();
-        lista.AddColumn("Partecipanti");
-        foreach (Partecipante partecipante in partecipanti) lista.AddRow(partecipante.Nome); //Crea una tabella con i partecipanti
-        AnsiConsole.Write(lista); //Stampa la tabella
-    }
+    // public void Lista(List<Partecipante> partecipanti)
+    // {
+    //     var lista = new Table();
+    //     lista.AddColumn("Partecipanti");
+    //     foreach (Partecipante partecipante in partecipanti) lista.AddRow(partecipante.Nome); //Crea una tabella con i partecipanti
+    //     AnsiConsole.Write(lista); //Stampa la tabella
+    // }
     public void Lista(List<Partecipante> partecipanti, List<Partecipante> squadra1, List<Partecipante> squadra2)
     {
         var table = new Table();
@@ -35,7 +35,7 @@ class View
             table.AddRow(partecipanti[i].Nome, squadra1.Count>i ? squadra1[i].Nome : "", squadra2.Count>i ? squadra2[i].Nome : "");
         AnsiConsole.Write(table); //Stampa la tabella
     }
-        public void Lista(List<Professionista> partecipanti)
+        public void Lista(List<Partecipante> partecipanti)
     {
         var lista = new Table();
         lista.AddColumn("Partecipanti");
