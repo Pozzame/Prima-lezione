@@ -11,7 +11,9 @@ class Model{
         {
             connection = new SQLiteConnection($"Data Source={path}database.db");  // Creazione di una connessione al database
             connection.Open(); // Apertura della connessione
-            SQLiteCommand command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Partecipanti (id INTEGER PRIMARY KEY, name TEXT);", connection);
+            SQLiteCommand command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Partecipanti (id INTEGER PRIMARY KEY, name TEXT UNIQUE, FOREIGN KEY (name) REFERENCES Professionisti (name));", connection);
+            command.ExecuteNonQuery();  // Esecuzione del comando
+            command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Professionisti (id INTEGER PRIMARY KEY, name TEXT UNIQUE, score INTEGER);", connection);
             command.ExecuteNonQuery();  // Esecuzione del comando
             List<string> partecipanti = new List<string>(File.ReadAllLines($"{path}Partecipanti.txt"));
             foreach (var partecipante in partecipanti)
@@ -19,6 +21,10 @@ class Model{
                 command = new SQLiteCommand($"insert into Partecipanti (name) values ('{partecipante}');", connection);
                 command.ExecuteNonQuery();
             }
+            command = new SQLiteCommand($"insert into Professionisti (name, score) values ('Matteo', 95);", connection);
+            command.ExecuteNonQuery();
+            command = new SQLiteCommand($"insert into Professionisti (name, score) values ('Carlo', 77);", connection);
+            command.ExecuteNonQuery();
         }
         else
         {
@@ -90,5 +96,17 @@ class Model{
     {
         SQLiteCommand command = new SQLiteCommand($"UPDATE Partecipanti SET name = '{nuovoNome}' WHERE name = '{nome}';", connection);
         command.ExecuteNonQuery();
+    }
+
+    internal List<Partecipante> GetPro()
+    {
+        var command = new SQLiteCommand("SELECT Partecipanti.name FROM Partecipanti JOIN Professionisti ON Partecipanti.name == Professionisti.name;", connection);
+        var reader = command.ExecuteReader();
+        var users = new List<Partecipante>();
+        while (reader.Read())
+        {
+            users.Add(new Partecipante(reader.GetString(0)));
+        }
+        return users;
     }
 }

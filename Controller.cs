@@ -74,6 +74,14 @@ class Controller
                                 Console.Clear();
                                 squadra1.Clear();
                                 squadra2.Clear();
+                                List<Partecipante> pro= new List<Partecipante>(db.GetPro());
+                                while (pro.Count > 0) //Cicla finché la lista dei Professionisti non si svuota
+                                {
+                                    int scelto = rng.Next(pro.Count); //Sceglie un partecipante a caso fra i rimanenti
+                                    if (squadra1.Count > squadra2.Count) squadra2.Add(pro[scelto]); else squadra1.Add(pro[scelto]); //Lo inserisce nella squadra più cota iniziando dalla 1
+                                    RemovePartecipante(temp, pro[scelto].Nome); //Lo rimuove dalla lista iniziale
+                                    pro.RemoveAt(scelto);
+                                }
                                 while (temp.Count > 0) //Cicla finché la lista dai partecipanto non si svuota
                                 {
                                     int scelto = rng.Next(temp.Count); //Sceglie un partecipante a caso fra i rimanenti
