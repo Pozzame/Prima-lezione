@@ -6,6 +6,8 @@ class Professionista : Partecipante
         this.score=score;
     }
 
+    public int Score { get => score; set => score = value; }
+
     public override string VisScore()
     {
         return Convert.ToString(score);

@@ -1,4 +1,3 @@
-using System.Data;
 using System.Data.SQLite;
 
 class Model{
@@ -8,79 +7,87 @@ class Model{
 
     public Model()
     {
+        // Verifica se il database esiste già.
+        // Se no lo crea, lo inizializza leggendo da un file di nomi e apre la connessione.
+        // Se c'è già, apre la connessione.
         if (!File.Exists($"{path}database.db"))
         {
             connection = new SQLiteConnection($"Data Source={path}database.db");  // Creazione di una connessione al database
             connection.Open(); // Apertura della connessione
-            SQLiteCommand command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Partecipanti (id INTEGER PRIMARY KEY, name TEXT UNIQUE, FOREIGN KEY (name) REFERENCES Professionisti (name));", connection);
+        //Creazione tabelle
+            SQLiteCommand command = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Partecipanti 
+                                                        (id INTEGER PRIMARY KEY, name TEXT UNIQUE, 
+                                                        FOREIGN KEY (name) REFERENCES Professionisti (name));"
+                                                        , connection);
             command.ExecuteNonQuery();  // Esecuzione del comando
             command = new SQLiteCommand("CREATE TABLE IF NOT EXISTS Professionisti (id INTEGER PRIMARY KEY, name TEXT UNIQUE, score INTEGER);", connection);
             command.ExecuteNonQuery();  // Esecuzione del comando
-            List<string> partecipanti = new List<string>(File.ReadAllLines($"{path}Partecipanti.txt"));
+        //
+        //Inizializzazione DB da files nomi
+            //Inserisce i partecipanti nel db da file
+            List<string> partecipanti = new List<string>(File.ReadAllLines($"{path}Partecipanti.txt")); //Legge il file nomi e li inseriesce in una List
             foreach (var partecipante in partecipanti)
             {
                 command = new SQLiteCommand($"insert into Partecipanti (name) values ('{partecipante}');", connection);
                 command.ExecuteNonQuery();
             }
-            command = new SQLiteCommand($"insert into Professionisti (name, score) values ('Matteo', 95);", connection);
-            command.ExecuteNonQuery();
-            command = new SQLiteCommand($"insert into Professionisti (name, score) values ('Carlo', 77);", connection);
-            command.ExecuteNonQuery();
+            //Inserisce i professionisti nel db da csv
+            var reader = new StreamReader(File.OpenRead($"{path}Professionisti.csv"));
+            List<Professionista> pro = new List<Professionista>();
+            while (!reader.EndOfStream) {
+                var line = reader.ReadLine();
+                var values = line!.Split(',');
+                pro.Add(new Professionista(values[0], Convert.ToInt32(values[1])));
+            }
+            foreach (var element in pro) {
+                command = new SQLiteCommand($"insert into Professionisti (name, score) values ('{element.Nome}', {element.Score});", connection);
+                command.ExecuteNonQuery();
+            }
+        //
         }
-        else
+        else // Apre connessione col DB
         {
             connection = new SQLiteConnection($"Data Source={path}database.db");  // Creazione di una connessione al database
             connection.Open(); // Apertura della connessione
         }
     }
-    // public List<Partecipante> Get()
-    // {
-    //     var command = new SQLiteCommand("SELECT name FROM Partecipanti;", connection);
-    //     var reader = command.ExecuteReader();
-    //     var users = new List<Partecipante>();
-    //     while (reader.Read())
-    //     {
-    //         users.Add(new Partecipante(reader.GetString(0)));
-    //     }
-    //     return users;
-    // }
+
+    //Restituisce il nome di un partecipante a partire dall'ID
     public Partecipante Get(int id)
     {
         SQLiteCommand command = new SQLiteCommand($"SELECT name FROM Partecipanti WHERE ID = '{id}';", connection);
         var reader = command.ExecuteReader();
         return new Partecipante(reader.GetString(0));
     }
+
+    //Estrapola i Partedipanti dal DB
+    //Quindi crea una List di Partecipanti che contiene anche Professionisti
     public List<Partecipante> Get()
     {
+        //Usando una LEFT JOIN restituisce una tabella 
+        //contenente tutti i partecipanti e il relativo score, se professionisti
         var command = new SQLiteCommand(@"SELECT Partecipanti.name name, score 
                                             FROM Partecipanti 
                                             LEFT JOIN Professionisti 
                                             ON Partecipanti.name == Professionisti.name;", connection);
         var reader = command.ExecuteReader();
         var users = new List<Partecipante>();
+        // Popola la lista, usando il polimorfismo, e la restituisce
         while (reader.Read())
         {
+            //Se la seconda colonna della tupla non è nulla, 
+            //significa che è un Professionista, altrimenti è un Partecipante
             if (!reader.IsDBNull(1))
                 users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
             else
                 users.Add(new Partecipante(reader.GetString(0)));
         }
         return users;
-    }
-    // public List<Partecipante> Sort(char ordinamento)
-    // {
-    //     string ord = "";
-    //     if (ordinamento == 'd')
-    //         ord = "DESC";
-    //     SQLiteCommand command = new SQLiteCommand($"SELECT name FROM Partecipanti ORDER BY name {ord};", connection); // Creazione di un comando per leggere gli utenti
-    //     var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
-    //     var users = new List<Partecipante>(); // Creazione di una lista per memorizzare i nomi degli utenti
-    //     while (reader.Read())
-    //     {
-    //         users.Add(new Partecipante(reader.GetString(0))); // Aggiunta dell'utente alla lista
-    //     }
-    //     return users;   // Restituzione della lista
-    // }   
+    }  
+
+    //Ordinamento
+    //Crea una List<Partecipanti> e la ordina in base alla chiave di ordinamento
+    //E' stato possibile perchè Partecipante implementa l'interfaccia IComparable
     public List<Partecipante> Sort(char ordinamento)
     {
         List<Partecipante> lista = Get();
@@ -90,26 +97,36 @@ class Model{
             lista.Sort();
         return lista;
     }
+
+    //Verifica se nel DB è presente un partecipante
     public bool Contains(string name)
     {
-        SQLiteCommand command = new SQLiteCommand($"SELECT name FROM Partecipanti WHERE name = '{name}';", connection); // Creazione di un comando per leggere gli utenti
+        // Creazione di un comando per leggere dal db l'utente ricercato
+        SQLiteCommand command = new SQLiteCommand($"SELECT name FROM Partecipanti WHERE name = '{name}';", connection);
         var reader = command.ExecuteReader();   // Esecuzione del comando e creazione di un oggetto per leggere i risultati
-        return reader.HasRows;
+        return reader.HasRows; //Restituisce un bool se la ricerca ha trovato un emlemento
     }
 
+    //Inserisce nel db un partecipante nuovo
     internal void Add(string name)
     {
         SQLiteCommand command = new SQLiteCommand($"INSERT INTO Partecipanti (name) VALUES ('{name}');", connection);
         command.ExecuteNonQuery();  // Esecuzione del comando
     }
 
+    //Rimuove un partecipante sia dai partecipanti che dai professionisti
+    //Se il partecipante non è un profesisonista, la DELETE non da errore
+
     internal void Remove(string name)
     {
         SQLiteCommand command = new SQLiteCommand($"DELETE FROM Partecipanti WHERE name = '{name}';", connection);
         command.ExecuteNonQuery(); 
+        command = new SQLiteCommand($"DELETE FROM Professionisti WHERE name = '{name}';", connection);
+        command.ExecuteNonQuery(); 
         Console.WriteLine($"{name} è stato rimosso.");
     }
 
+    //Restituisce una List<string> che contiene i soli nomi di tutti i partecipanti
     internal List<string> GetStrings()
     {
         List<string> list = new List<string>();
@@ -119,27 +136,25 @@ class Model{
         return list;
     }
 
+    //Sostituisce il nome di un partecipante
     internal void Edit(string nome, string nuovoNome)
     {
         SQLiteCommand command = new SQLiteCommand($"UPDATE Partecipanti SET name = '{nuovoNome}' WHERE name = '{nome}';", connection);
         command.ExecuteNonQuery();
     }
 
+    //Restituisce la lista dei soli professionisti
     internal List<Professionista> GetPro()
     {
         var command = new SQLiteCommand("SELECT Partecipanti.name, score FROM Partecipanti JOIN Professionisti ON Partecipanti.name == Professionisti.name;", connection);
         var reader = command.ExecuteReader();
         var users = new List<Professionista>();
         while (reader.Read())
-        {
-            if (!reader.IsDBNull(1))
-                users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
-            else
-                users.Add(new Professionista(reader.GetString(0), -1));
-        }
+            users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
         return users;
     }
 
+    //Aggiunge un Professionista
     internal void RendiPro(string name)
     {
         SQLiteCommand command = new SQLiteCommand($"INSERT INTO Professionisti (name) VALUES ('{name}');", connection);
@@ -150,6 +165,7 @@ class Model{
         }
     }
 
+    //Cambia lo score di un professionista
     internal void EditScore(string name)
     {
         Console.WriteLine("Insert new score:");
