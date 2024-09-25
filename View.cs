@@ -34,7 +34,7 @@ class View
         lista.AddColumn("Partecipanti");
         lista.AddColumn("Score");
         foreach (Partecipante partecipante in partecipanti) 
-            lista.AddRow(partecipante.Nome, Convert.ToString(partecipante.VisScore())); //Crea una tabella con i partecipanti
+            lista.AddRow(partecipante.Nome, partecipante.VisScore()); //Crea una tabella con i partecipanti
         AnsiConsole.Write(lista); //Stampa la tabella
     }
     public void Presente(bool presente)

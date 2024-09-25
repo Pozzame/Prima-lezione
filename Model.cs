@@ -3,7 +3,8 @@ using System.Data.SQLite;
 
 class Model{
     private SQLiteConnection connection;
-    private string path = @"C:\Users\pozza\Documents\VisualStudioCode\Prima-lezione\"; //C:\Users\Pozzame\Documents\Corso_2024\Prima lezione\
+    private string path = @"C:\Users\Pozzame\Documents\Corso_2024\Prima lezione\"; 
+    //private string path = @"C:\Users\pozza\Documents\VisualStudioCode\Prima-lezione\";
 
     public Model()
     {

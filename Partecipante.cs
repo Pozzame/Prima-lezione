@@ -1,5 +1,3 @@
-using System.Collections;
-
 class Partecipante : IComparable<Partecipante>
 {
     public Partecipante(string nome)
@@ -8,9 +6,9 @@ class Partecipante : IComparable<Partecipante>
     }
 
     public string Nome { get; set; }
-    public virtual int VisScore()
+    public virtual string VisScore()
     {
-        return 0;
+        return "-";
     }
 
     public int CompareTo(Object? x, Object? y)

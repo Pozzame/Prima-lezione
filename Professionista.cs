@@ -6,8 +6,8 @@ class Professionista : Partecipante
         this.score=score;
     }
 
-    public override int VisScore()
+    public override string VisScore()
     {
-        return score;
+        return Convert.ToString(score);
     }
 }
