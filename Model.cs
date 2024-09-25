@@ -65,7 +65,7 @@ class Model{
     public List<Partecipante> Get()
     {
         //Usando una LEFT JOIN restituisce una tabella 
-        //contenente tutti i partecipanti e il relativo score, se professionisti
+        //  contenente tutti i partecipanti e il relativo score, se professionisti
         var command = new SQLiteCommand(@"SELECT Partecipanti.name name, score 
                                             FROM Partecipanti 
                                             LEFT JOIN Professionisti 
@@ -76,7 +76,7 @@ class Model{
         while (reader.Read())
         {
             //Se la seconda colonna della tupla non è nulla, 
-            //significa che è un Professionista, altrimenti è un Partecipante
+            //  significa che è un Professionista, altrimenti è un Partecipante
             if (!reader.IsDBNull(1))
                 users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
             else

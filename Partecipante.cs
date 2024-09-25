@@ -11,6 +11,7 @@ class Partecipante : IComparable<Partecipante>
         return "-";
     }
 
+//Metodi per implementare IComparable e rendere le list<Partecipanti> sortabili
     public int CompareTo(Object? x, Object? y)
     {
         Partecipante p1 = (Partecipante)x!;
@@ -24,19 +25,4 @@ class Partecipante : IComparable<Partecipante>
         return Nome.CompareTo(other!.Nome);
     }
 }
-static class EstensioniListaProfessionisti
-{
-    public static List<string> ToList(this List<Professionista> persone)
-    {
-        List<string> nomi = new List<string>();
-        
-        foreach (Professionista persona in persone)
-        {
-            if (persona != null)
-            {
-                nomi.Add(persona.Nome);
-            }
-        }
-        return nomi;
-    }
-}
+

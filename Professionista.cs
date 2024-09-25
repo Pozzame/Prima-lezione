@@ -13,3 +13,16 @@ class Professionista : Partecipante
         return Convert.ToString(score);
     }
 }
+
+static class EstensioniListaProfessionisti
+{
+    public static List<string> ToList(this List<Professionista> persone)
+    {
+        List<string> nomi = new List<string>();
+        
+        foreach (Professionista persona in persone)
+            if (persona != null)
+            nomi.Add(persona.Nome);
+        return nomi;
+    }
+}
