@@ -128,14 +128,14 @@ class Model{
     }
 
     //Restituisce una List<string> che contiene i soli nomi di tutti i partecipanti
-    internal List<string> GetStrings()
-    {
-        List<string> list = new List<string>();
-        List<Partecipante> partecipanti = Get();
-        foreach (Partecipante partecipante in partecipanti)
-            list.Add(partecipante.Nome);
-        return list;
-    }
+    // internal List<string> GetStrings()
+    // {
+    //     List<string> list = new List<string>();
+    //     List<Partecipante> partecipanti = Get();
+    //     foreach (Partecipante partecipante in partecipanti)
+    //         list.Add(partecipante.Nome);
+    //     return list;
+    // }
 
     //Sostituisce il nome di un partecipante
     internal void Edit(string nome, string nuovoNome)
@@ -149,16 +149,27 @@ class Model{
     {
         var command = new SQLiteCommand("SELECT Partecipanti.name, score FROM Partecipanti JOIN Professionisti ON Partecipanti.name == Professionisti.name;", connection);
         var reader = command.ExecuteReader();
-        var users = new List<Professionista>();
+        List<Professionista> users = new List<Professionista>();
         while (reader.Read())
-            users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
+        {
+            int score;
+            string nome = reader.GetString(0);
+            if (reader.IsDBNull(1))
+                score = -1;
+            else
+                score= reader.GetInt32(1);
+            users.Add(new Professionista(nome, score));
+        }
+            // users.Add(new Professionista(reader.GetString(0), reader.GetInt32(1)));
         return users;
     }
 
     //Aggiunge un Professionista
     internal void RendiPro(string name)
     {
-        SQLiteCommand command = new SQLiteCommand($"INSERT INTO Professionisti (name) VALUES ('{name}');", connection);
+        Console.WriteLine("Score?");
+        int score = Convert.ToInt32(Console.ReadLine());
+        SQLiteCommand command = new SQLiteCommand($"INSERT INTO Professionisti (name, score) VALUES ('{name}', {score});", connection);
         try{
             command.ExecuteNonQuery();
         }catch (SQLiteException){

@@ -73,19 +73,19 @@ class View
                 .Title("-----Seleziona partecipante-----")
                 .PageSize(db.Get().Count)
                 .MoreChoicesText("[grey](Move up and down to select)[/]")
-                .AddChoices(db.GetStrings()));
+                .AddChoices(db.Get().ToList()));
     }
 
     //Overload di Select() che permette di selezionare fra una lista di professionsti passatagli
     //Utilizza il ToList come estensione della List<Professionisti>
-    internal string Select(List<Professionista> pro)
+    internal string Select(IEnumerable<Partecipante> pro)
     {
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("-----Seleziona partecipante-----")
-                .PageSize(pro.Count)
+                .PageSize(Convert.ToInt32(pro.LongCount()))
                 .MoreChoicesText("[grey](Move up and down to select)[/]")
-                .AddChoices(pro.ToList()));
+                .AddChoices(pro.ToList().ToList()));
     }
 
     internal string SquadreMenu()
@@ -111,6 +111,6 @@ class View
             new MultiSelectionPrompt<string>()
                 .Title("Selezionare squadra 1?")
                 .PageSize(db.Get().Count)
-                .AddChoices(db.GetStrings()));
+                .AddChoices(db.Get().ToList()));
     }
 }

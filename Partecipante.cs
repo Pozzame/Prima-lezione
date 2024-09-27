@@ -1,3 +1,4 @@
+
 class Partecipante : IComparable<Partecipante>
 {
     public Partecipante(string nome)
@@ -26,3 +27,15 @@ class Partecipante : IComparable<Partecipante>
     }
 }
 
+static class EstensioniListaPartecipanti
+{
+    public static List<string> ToList(this List<Partecipante> persone)
+    {
+        List<string> nomi = new List<string>();
+        
+        foreach (Partecipante persona in persone)
+            //if (persona != null)
+                nomi.Add(persona.Nome);
+        return nomi;
+    }
+}

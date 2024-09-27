@@ -65,7 +65,7 @@ class Controller
                     break;
                 case "Salva lista": //Salva lista
                     File.Delete("Partecipanti.txt");
-                    File.AppendAllLines("Partecipanti.txt", db.GetStrings());
+                    File.AppendAllLines("Partecipanti.txt", db.Get().ToList());
                     Console.WriteLine("Nuova lista salvata!");
                     break;
                 case "Menù squadre": //Menù squadre
