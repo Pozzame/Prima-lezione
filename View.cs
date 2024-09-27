@@ -71,9 +71,9 @@ class View
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("-----Seleziona partecipante-----")
-                .PageSize(db.Get().Count)
+                .PageSize(db.Partecipanti.ToList().Count)
                 .MoreChoicesText("[grey](Move up and down to select)[/]")
-                .AddChoices(db.Get().ToList()));
+                .AddChoices(db.Partecipanti.ToList().ToList()));
     }
 
     //Overload di Select() che permette di selezionare fra una lista di professionsti passatagli
@@ -110,7 +110,7 @@ class View
         return AnsiConsole.Prompt(
             new MultiSelectionPrompt<string>()
                 .Title("Selezionare squadra 1?")
-                .PageSize(db.Get().Count)
-                .AddChoices(db.Get().ToList()));
+                .PageSize(db.Partecipanti.ToList().Count)
+                .AddChoices(db.Partecipanti.ToList().ToList()));
     }
 }

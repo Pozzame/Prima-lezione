@@ -5,7 +5,7 @@ class Professionista : Partecipante
         Score=score;
     }
 
-    public int? Score { get; set; }
+    public int Score { get; set; }
 
     public override string VisScore()
     {
