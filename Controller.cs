@@ -126,7 +126,7 @@ class Controller
 
     private void EditScore(string nom)
     {
-        Professionista professionista = null;
+        Professionista professionista = null!;
         foreach (var u in db.Professionisti)
         {
             if (u.Nome == nom)
@@ -153,7 +153,7 @@ class Controller
 
     private void EditNome(string oldNome, string newNome)
     {
-        Partecipante partecipante = null;
+        Partecipante partecipante = null!;
         foreach (var u in db.Partecipanti)
         {
             if (u.Nome == oldNome)
@@ -165,7 +165,7 @@ class Controller
         if (partecipante != null)
         {
             partecipante.Nome = newNome;
-            Professionista professionista = null;
+            Professionista professionista = null!;
             foreach (var u in db.Professionisti)
             {
                 if (u.Nome == oldNome)
@@ -184,7 +184,7 @@ class Controller
 
     private void RemoveNome(string nom)
     {
-        Partecipante partecipante = null;
+        Partecipante partecipante = null!;
         foreach (var u in db.Partecipanti)
         {
             if (u.Nome == nom)
@@ -196,7 +196,7 @@ class Controller
         if (partecipante != null)
         {
             db.Partecipanti.Remove(partecipante);
-            Professionista professionista1 = null;
+            Professionista professionista1 = null!;
             foreach (var u in db.Professionisti)
             {
                 if (u.Nome == nom)
@@ -217,7 +217,7 @@ class Controller
 
     private void AddNome(string nom)
     {
-        Partecipante partecipante = null;
+        Partecipante partecipante = null!;
         foreach (var u in db.Partecipanti)
         {
             if (u.Nome == nom)
@@ -237,7 +237,7 @@ class Controller
 
     private bool Search(string nom)
     {
-        Partecipante partecipante = null;
+        Partecipante partecipante = null!;
         foreach (var u in db.Partecipanti)
         {
             if (u.Nome == nom)
