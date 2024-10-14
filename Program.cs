@@ -17,6 +17,7 @@ class Program
                 List<string> partecipanti = new List<string>(File.ReadAllLines($"Partecipanti.txt")); //Legge il file nomi e li inseriesce in una List
                 foreach (var partecipante in partecipanti)
                     controller.AddNome(partecipante);
+                db.SaveChanges();
 
                 //Inserisce i professionisti nel db da csv
                 var reader = new StreamReader(File.OpenRead($"Professionisti.csv"));
@@ -29,9 +30,10 @@ class Program
                 }
                 foreach (var element in pro)
                     controller.RendiPro(element.Nome, element.Score);
+                db.SaveChanges();
             }
         }
-        
+
         controller.Menu();
     }
 }

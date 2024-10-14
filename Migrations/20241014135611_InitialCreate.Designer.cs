@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Prima_lezione.Migrations
 {
     [DbContext(typeof(Model))]
-    [Migration("20241014113702_InitialCreate")]
+    [Migration("20241014135611_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,22 +24,15 @@ namespace Prima_lezione.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("Partecipanti");
+                    b.ToTable("Partecipanti", (string)null);
 
-                    b.HasDiscriminator().HasValue("Partecipante");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Professionista", b =>
@@ -49,7 +42,16 @@ namespace Prima_lezione.Migrations
                     b.Property<int>("Score")
                         .HasColumnType("INTEGER");
 
-                    b.HasDiscriminator().HasValue("Professionista");
+                    b.ToTable("Professionisti", (string)null);
+                });
+
+            modelBuilder.Entity("Professionista", b =>
+                {
+                    b.HasOne("Partecipante", null)
+                        .WithOne()
+                        .HasForeignKey("Professionista", "ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
