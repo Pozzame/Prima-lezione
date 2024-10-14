@@ -5,7 +5,7 @@
 namespace Prima_lezione.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateee : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

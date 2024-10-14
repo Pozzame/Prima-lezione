@@ -1,5 +1,3 @@
-using System.Runtime.Intrinsics.Arm;
-
 class Controller
 {
     private Model db;
@@ -150,6 +148,11 @@ class Controller
         db.Professionisti.Add(new Professionista(nom, score));
         db.SaveChanges();
     }
+    public void RendiPro(string nom, int score)
+    {
+        db.Professionisti.Add(new Professionista(nom, score));
+        db.SaveChanges();
+    }
 
     private void EditNome(string oldNome, string newNome)
     {
@@ -215,7 +218,7 @@ class Controller
             Console.WriteLine("Partecipante non presente.");
     }
 
-    private void AddNome(string nom)
+    public void AddNome(string nom)
     {
         Partecipante partecipante = null!;
         foreach (var u in db.Partecipanti)

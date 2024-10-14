@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Prima_lezione.Migrations
 {
     [DbContext(typeof(Model))]
-    [Migration("20240927183550_InitialCreateee")]
-    partial class InitialCreateee
+    [Migration("20241014113702_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

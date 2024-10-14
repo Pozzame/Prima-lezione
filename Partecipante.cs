@@ -1,4 +1,3 @@
-
 class Partecipante : IComparable<Partecipante>
 {
     public Partecipante(string nome)
