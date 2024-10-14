@@ -4,6 +4,7 @@ class Program
 {
     public static void Main()
     {
+        string path = @"C:\Users\pozza\Documents\VisualStudioCode\Prima-lezione\";
         Model db = new Model();
         View view = new View(db);
         Controller controller = new Controller(db, view);
@@ -14,13 +15,13 @@ class Program
             {
                 //Inizializzazione DB da files nomi
                 //Inserisce i partecipanti nel db da file
-                List<string> partecipanti = new List<string>(File.ReadAllLines($"Partecipanti.txt")); //Legge il file nomi e li inseriesce in una List
+                List<string> partecipanti = new List<string>(File.ReadAllLines($"{path}Partecipanti.txt")); //Legge il file nomi e li inseriesce in una List
                 foreach (var partecipante in partecipanti)
                     controller.AddNome(partecipante);
                 db.SaveChanges();
 
                 //Inserisce i professionisti nel db da csv
-                var reader = new StreamReader(File.OpenRead($"Professionisti.csv"));
+                var reader = new StreamReader(File.OpenRead($"{path}Professionisti.csv"));
                 List<Professionista> pro = new List<Professionista>();
                 while (!reader.EndOfStream)
                 {

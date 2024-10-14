@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Prima_lezione.Migrations
 {
     [DbContext(typeof(Model))]
-    [Migration("20241014135611_InitialCreate")]
+    [Migration("20241014154122_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,6 +39,10 @@ namespace Prima_lezione.Migrations
                 {
                     b.HasBaseType("Partecipante");
 
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+                        
                     b.Property<int>("Score")
                         .HasColumnType("INTEGER");
 

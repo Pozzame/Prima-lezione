@@ -150,8 +150,22 @@ class Controller
     }
     public void RendiPro(string nom, int score)
     {
-        db.Professionisti.Add(new Professionista(nom, score));
-        db.SaveChanges();
+        Partecipante partecipante = null!;
+        foreach (var u in db.Partecipanti)
+        {
+            if (u.Nome == nom)
+            {
+                partecipante = u;
+                break;
+            }
+        }
+        if (partecipante != null)
+        {
+            Professionista prof = new Professionista(nom, score);
+            prof.ID = partecipante.ID;
+            db.Professionisti.Add(prof);
+            db.SaveChanges();
+        }
     }
 
     private void EditNome(string oldNome, string newNome)
