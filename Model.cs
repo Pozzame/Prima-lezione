@@ -18,10 +18,5 @@ class Model : DbContext
         // Configura Professionista come entità concreta con tutte le sue proprietà
         modelBuilder.Entity<Professionista>()
             .ToTable("Professionisti");
-
-        // Aggiungi il campo Nome anche nella tabella Professionisti
-        modelBuilder.Entity<Professionista>()
-            .Property(p => p.Nome)
-            .IsRequired();  // Nome sarà obbligatorio in Professionisti
     }
 }

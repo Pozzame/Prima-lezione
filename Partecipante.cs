@@ -5,7 +5,7 @@ class Partecipante : IComparable<Partecipante>
         Nome = nome;
     }
 
-    public int ID { get; set; }
+    public int Id { get; set; }
     public string Nome { get; set; }
     public virtual string VisScore()
     {
@@ -34,7 +34,6 @@ static class EstensioniListaPartecipanti
         List<string> nomi = new List<string>();
 
         foreach (Partecipante persona in persone)
-            //if (persona != null)
             nomi.Add(persona.Nome);
         return nomi;
     }

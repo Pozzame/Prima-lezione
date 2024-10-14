@@ -1,14 +1,11 @@
 class Professionista : Partecipante
 {
-    private string nome;
-
     public Professionista(string nome, int score) : base(nome)
     {
-        Score=score;
+        Score = score;
     }
 
     public int Score { get; set; }
-    // public string Nome { get => base.Nome; set => base.Nome = value; }
 
     public override string VisScore()
     {
@@ -16,3 +13,14 @@ class Professionista : Partecipante
     }
 }
 
+static class EstensioniArrayProfessionisti
+{
+    public static string[] ToArrays(this List<Professionista> profs)
+    {
+        string[] righe = new string[profs.Count];
+
+        for (int i = 0; i < righe.Length; i++)
+            righe[i] = $"{profs[i].Nome},{profs[i].Score}";
+        return righe;
+    }
+}

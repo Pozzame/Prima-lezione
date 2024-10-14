@@ -96,7 +96,7 @@ class View
                 .PageSize(5)
                 .MoreChoicesText("[grey](Move up and down to select)[/]")
                 .AddChoices(new[] {
-                    "Crea squadre", "Squadre manuali", "Back",
+                    "Crea squadre", "Squadre manuali", "Salva squadre", "Back",
                     }));
     }
 

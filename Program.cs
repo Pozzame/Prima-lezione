@@ -9,9 +9,8 @@ class Program
         View view = new View(db);
         Controller controller = new Controller(db, view);
 
-        using (var context = db)
-        {
-            if (!context.Partecipanti.ToList().Any())
+      
+            if (!db.Partecipanti.ToList().Any())
             {
                 //Inizializzazione DB da files nomi
                 //Inserisce i partecipanti nel db da file
@@ -19,7 +18,9 @@ class Program
                 foreach (var partecipante in partecipanti)
                     controller.AddNome(partecipante);
                 db.SaveChanges();
-
+            }
+            if (!db.Professionisti.ToList().Any())
+            {
                 //Inserisce i professionisti nel db da csv
                 var reader = new StreamReader(File.OpenRead($"{path}Professionisti.csv"));
                 List<Professionista> pro = new List<Professionista>();
@@ -32,8 +33,9 @@ class Program
                 foreach (var element in pro)
                     controller.RendiPro(element.Nome, element.Score);
                 db.SaveChanges();
+                reader.Close();
             }
-        }
+        
 
         controller.Menu();
     }

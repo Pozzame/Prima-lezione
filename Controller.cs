@@ -1,5 +1,8 @@
+using System.Text.Json;
+
 class Controller
 {
+    string path = @"C:\Users\pozza\Documents\VisualStudioCode\Prima-lezione\";
     private Model db;
     private View view;
     Random rng = new Random();
@@ -48,7 +51,9 @@ class Controller
                                 EditNome(oldNome, NewNome);
                                 break;
                             case "Rendi professionista":
-                                RendiPro(view.Select());
+                                Console.WriteLine("Score?");
+                                int score = Convert.ToInt32(Console.ReadLine());
+                                RendiPro(view.Select(), score);
                                 break;
                             case "Modifica score Pro":
                                 EditScore(view.Select(db.Professionisti.ToList()));
@@ -57,8 +62,12 @@ class Controller
                     } while (inserimento != "Back"); //Esce con 'b'
                     break;
                 case "Salva lista": //Salva lista
-                    File.Delete("Partecipanti.txt");
-                    File.AppendAllLines("Partecipanti.txt", db.Partecipanti.ToList().ToList());
+                    File.Delete($"{path}Partecipanti.txt");
+                    File.AppendAllLines($"{path}Partecipanti.txt", db.Partecipanti.ToList().ToList());
+                    
+                    File.Delete($"{path}Professionisti.csv");
+                    File.AppendAllLines($"{path}Professionisti.csv", db.Professionisti.ToList().ToArrays());
+
                     Console.WriteLine("Nuova lista salvata!");
                     break;
                 case "Menù squadre": //Menù squadre
@@ -75,6 +84,10 @@ class Controller
                             case "Squadre manuali":
                                 SquadreManuali(squadra1, squadra2);
                                 break;
+                            case "Salva squadre":
+                                File.WriteAllText($"{path}Squadra1.json", JsonSerializer.Serialize( squadra1 ));
+                                File.WriteAllText($"{path}Squadra2.json", JsonSerializer.Serialize( squadra2 ));
+                                break;
                         }
                     } while (inserimento != "Back"); //Esce con "Back"
                     break;
@@ -84,7 +97,7 @@ class Controller
 
     private void SquadreManuali(List<Partecipante> squadra1, List<Partecipante> squadra2)
     {
-        List<Partecipante> temp = new List<Partecipante>(db.Partecipanti.ToList());
+        List<Partecipante> temp = db.Partecipanti.ToList();
         Console.Clear();
         squadra1.Clear();
         squadra2.Clear();
@@ -94,8 +107,8 @@ class Controller
             squadra1.Add(new Partecipante(item));
             RemovePartecipante(temp, item);
         }
-        //foreach (Partecipante item in squadra1) temp.Remove(item);
-        squadra2 = new List<Partecipante>(temp);
+        foreach (Partecipante item in temp)
+            squadra2.Add(item);
         view.Lista(db.Partecipanti.ToList(), squadra1, squadra2);
     }
 
@@ -141,31 +154,11 @@ class Controller
         }
     }
 
-    private void RendiPro(string nom)
-    {
-        Console.WriteLine("Score?");
-        int score = Convert.ToInt32(Console.ReadLine());
-        db.Professionisti.Add(new Professionista(nom, score));
-        db.SaveChanges();
-    }
     public void RendiPro(string nom, int score)
     {
-        Partecipante partecipante = null!;
-        foreach (var u in db.Partecipanti)
-        {
-            if (u.Nome == nom)
-            {
-                partecipante = u;
-                break;
-            }
-        }
-        if (partecipante != null)
-        {
-            Professionista prof = new Professionista(nom, score);
-            prof.ID = partecipante.ID;
-            db.Professionisti.Add(prof);
-            db.SaveChanges();
-        }
+        db.Professionisti.Add(new Professionista(nom, score));
+        RemoveNome(nom);
+        db.SaveChanges();
     }
 
     private void EditNome(string oldNome, string newNome)
@@ -213,19 +206,6 @@ class Controller
         if (partecipante != null)
         {
             db.Partecipanti.Remove(partecipante);
-            Professionista professionista1 = null!;
-            foreach (var u in db.Professionisti)
-            {
-                if (u.Nome == nom)
-                {
-                    professionista1 = u;
-                    break;
-                }
-                if (professionista1 != null)
-                {
-                    db.Professionisti.Remove(professionista1);
-                }
-            }
             db.SaveChanges();
         }
         else

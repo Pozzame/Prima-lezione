@@ -1,14 +1,8 @@
-Allison
-Carlo
-Ciccio
-Daniele
 Francesco
 Ginevra
-Matteo
 Mattia
 Sempronio
 Serghej
-Pino
 Piero
 Antonio
 Carmelo
@@ -17,3 +11,8 @@ Pierpiero
 Antani
 Farlocco
 Piergiorgio
+Matteo
+Carlo
+Allison
+Daniele
+Parapiero
